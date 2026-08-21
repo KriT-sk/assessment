@@ -1,1 +1,427 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบแจ้งนักเรียนไม่มีสิทธิ์สอบปลายภาค 1/2569 - โรงเรียนวีรวัฒน์โยธิน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #e0e7ff;
+            /* Animated Mesh Gradient Background */
+            background-image: 
+                radial-gradient(at 40% 20%, hsla(228,100%,74%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(355,100%,93%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 50%, hsla(340,100%,76%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(22,100%,77%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 100%, hsla(242,100%,70%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 0%, hsla(343,100%,76%,1) 0px, transparent 50%);
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+        }
 
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .header-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #4f46e5 100%);
+        }
+
+        .floating-shape {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        .tab-btn.active {
+            background-color: #ffffff;
+            color: #1e3a8a;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center justify-center p-3 sm:p-6 lg:p-10 overflow-x-hidden relative">
+
+    <div class="absolute top-10 left-10 w-32 h-32 bg-blue-400 rounded-full mix-blend-multiply filter blur-2xl opacity-50 floating-shape pointer-events-none"></div>
+    <div class="absolute bottom-10 right-10 w-40 h-40 bg-pink-400 rounded-full mix-blend-multiply filter blur-2xl opacity-50 floating-shape pointer-events-none" style="animation-delay: 2s;"></div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="w-full max-w-5xl glass-card rounded-[2rem] shadow-2xl overflow-hidden border border-white/60 relative z-10 my-4">
+        
+        <header class="header-gradient text-white px-5 py-6 sm:px-8 sm:py-8 relative overflow-hidden shadow-md">
+            <!-- Background Graphics -->
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <!-- Header Branding -->
+            <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-left">
+                    <img src="https://www.weerawat.ac.th/web/images/pic2561/logo%20wt.png" 
+                         alt="ตราโรงเรียนวีรวัฒน์โยธิน" 
+                         class="w-14 h-14 sm:w-16 sm:h-16 object-contain filter drop-shadow-md transition-transform hover:scale-105"
+                         onerror="this.src='https://placehold.co/80x80/ffffff/1e3a8a?text=Logo'">
+                    <div>
+                        <h1 class="text-lg sm:text-2xl font-extrabold tracking-wide drop-shadow-md">
+                            ระบบแจ้งนักเรียนไม่มีสิทธิ์สอบปลายภาค
+                        </h1>
+                        <p class="text-blue-100 text-xs sm:text-sm font-medium mt-0.5">
+                            โรงเรียนวีรวัฒน์โยธิน สำนักงานเขตพื้นที่การศึกษามัธยมศึกษาสุรินทร์
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1.5 bg-blue-200/20 text-yellow-300 text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20 shadow-inner">
+                    <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                    ภาคเรียนที่ 1/2569
+                </div>
+            </div>
+
+            <!-- Navigation Tabs Bar -->
+            <div class="relative z-10 mt-6 pt-4 border-t border-white/20 flex items-center justify-center sm:justify-start gap-2">
+                <button id="tab-announcement-btn" onclick="switchTab('announcement')" 
+                        class="tab-btn active transition-all duration-300 px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+                    </svg>
+                    หน้าประกาศแจ้งเตือน
+                </button>
+                
+                <button id="tab-guide-btn" onclick="switchTab('guide')" 
+                        class="tab-btn transition-all duration-300 px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium text-blue-100 hover:text-white hover:bg-white/10 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    ขั้นตอนการบันทึกข้อมูล
+                </button>
+            </div>
+        </header>
+
+        <div id="view-announcement" class="p-6 sm:p-10 lg:p-12 relative block">
+            
+            <div class="mb-10 text-center text-gray-700 max-w-3xl mx-auto">
+                <p class="text-base sm:text-lg leading-relaxed font-medium">
+                    ขอความร่วมมือคณะครูผู้สอนทุกท่าน โปรดดำเนินการบันทึกข้อมูลนักเรียนที่ไม่มีสิทธิ์สอบปลายภาค
+                    หรือมีแนวโน้มที่จะได้รับผลการเรียน <span class="text-red-600 font-bold">0, ร, มผ</span> 
+                    ประจำภาคเรียนที่ 1 ปีการศึกษา 2569 ตามกำหนดการที่สำคัญด้านล่างนี้
+                </p>
+            </div>
+
+            <!-- Timeline Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12">
+                <!-- Deadline Date Card -->
+                <div class="relative bg-white rounded-2xl p-6 sm:p-8 border border-red-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="bg-gradient-to-br from-red-400 to-red-600 p-4 rounded-full mb-4 shadow-lg text-white">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">ครูผู้สอนบันทึกข้อมูลภายใน</h3>
+                        <p class="text-sm text-gray-500 mb-4">เข้าสู่ระบบเพื่อบันทึกรายชื่อนักเรียน มส., 0, ร, มผ</p>
+                        <div class="bg-red-50 px-6 py-3 rounded-full border border-red-100">
+                            <p class="text-xl sm:text-2xl font-extrabold text-red-600 tracking-tight">3 กันยายน 2569</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Announcement Date Card -->
+                <div class="relative bg-white rounded-2xl p-6 sm:p-8 border border-blue-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-4 rounded-full mb-4 shadow-lg text-white">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">ประกาศรายชื่ออย่างเป็นทางการ</h3>
+                        <p class="text-sm text-gray-500 mb-4">แจ้งให้นักเรียนและผู้ปกครองทราบรายบุคคล</p>
+                        <div class="bg-blue-50 px-6 py-3 rounded-full border border-blue-100">
+                            <p class="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">7 กันยายน 2569</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button Area -->
+            <div class="text-center relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-100 to-indigo-100 transform -skew-y-2 rounded-3xl -z-10"></div>
+                
+                <div class="p-6 sm:p-10">
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">เข้าสู่ระบบบันทึกข้อมูล (AppSheet)</h2>
+                    <p class="text-gray-600 text-sm sm:text-base mb-4 max-w-lg mx-auto">
+                        คลิกปุ่มด้านล่างเพื่อเข้าสู่ระบบบันทึกรายชื่อนักเรียนไม่มีสิทธิ์สอบปลายภาค 1/2569
+                    </p>
+                    
+                    <!-- Notice: PC Recommendation -->
+                    <div class="inline-flex items-center gap-2 bg-amber-50 text-amber-900 border border-amber-200 px-4 py-2 rounded-full text-xs sm:text-sm font-medium mb-6 shadow-sm max-w-md">
+                        <svg class="w-5 h-5 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <span><strong>คำแนะนำ:</strong> เพื่อความสะดวกและมองเห็นตารางข้อมูลชัดเจน แนะนำให้เข้าใช้งานผ่านคอมพิวเตอร์ (PC / Laptop)</span>
+                    </div>
+
+                    <a href="https://www.appsheet.com/start/ff16bc26-95ea-4d59-93aa-a31e0030ab0c" target="_blank" rel="noopener noreferrer" 
+                       class="pulse-glow relative inline-flex items-center justify-center px-8 py-4 sm:py-5 text-base sm:text-xl font-bold text-white transition-all duration-300 transform bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full hover:from-blue-700 hover:to-indigo-700 hover:scale-105 active:scale-95 group shadow-lg">
+                        <div class="bg-white/20 p-2 rounded-full mr-3 group-hover:rotate-12 transition-transform duration-300">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        คลิกที่นี่เพื่อบันทึกข้อมูลนักเรียน
+                        <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+
+                    <div class="mt-4">
+                        <button onclick="switchTab('guide')" class="inline-flex items-center gap-1.5 text-xs sm:text-sm text-blue-600 hover:text-blue-800 font-semibold underline underline-offset-4 decoration-blue-300">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            ดูคู่มือและขั้นตอนการบันทึกอย่างละเอียด
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="view-guide" class="p-6 sm:p-10 lg:p-12 relative hidden">
+            
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">คู่มือการใช้งาน</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-800 mt-2">ขั้นตอนการบันทึกนักเรียนไม่มีสิทธิ์สอบ</h2>
+                <p class="text-gray-600 text-sm sm:text-base mt-2">
+                    คู่มือแนะนำขั้นตอนการใช้งานระบบบันทึกนักเรียน มส. และแนวโน้ม 0, ร, มผ สำหรับครูผู้สอน
+                </p>
+
+                <!-- Notice: PC Recommendation on Guide Page -->
+                <div class="mt-4 inline-flex items-center gap-2 bg-blue-50 text-blue-900 border border-blue-200 px-4 py-2 rounded-full text-xs sm:text-sm font-medium">
+                    <svg class="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>แนะนำให้เข้าใช้งานผ่านจอคอมพิวเตอร์ (PC / Laptop) เพื่อความสะดวกในการกรอกและตรวจสอบข้อมูล</span>
+                </div>
+            </div>
+
+            <!-- Steps Container -->
+            <div class="space-y-10">
+                
+                <!-- STEP 1 -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 border border-blue-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div class="flex items-center gap-4">
+                            <span class="step-badge text-white font-extrabold text-lg sm:text-xl w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shadow-md flex-shrink-0">
+                                1
+                            </span>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-gray-800">เพิ่มรายวิชาของท่าน</h3>
+                                <p class="text-gray-600 text-sm sm:text-base mt-0.5">ในหน้ารายวิชา กดปุ่ม <span class="inline-flex items-center gap-1 font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">+ add</span> เพื่อเพิ่มรายวิชาที่สอน</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Horizontal Screenshot Reserved Box -->
+                    <div class="w-full aspect-[16/8] sm:aspect-[16/7] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-4 text-center overflow-hidden relative group">
+                        <div class="p-3 bg-white rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-bold text-gray-700">พื้นที่สำหรับใส่ภาพหน้าจอขั้นตอนที่ 1 (แนวนอน)</p>
+                        <p class="text-xs text-gray-400 mt-1">แสดงหน้าจอการกด +add ในหน้ารายวิชา</p>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 border border-blue-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div class="flex items-center gap-4">
+                            <span class="step-badge text-white font-extrabold text-lg sm:text-xl w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shadow-md flex-shrink-0">
+                                2
+                            </span>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-gray-800">เข้ารายวิชาของท่าน</h3>
+                                <p class="text-gray-600 text-sm sm:text-base mt-0.5">เมื่อบันทึกการเพิ่มรายวิชาเรียบร้อยแล้ว ให้คลิก/กดเข้ารายวิชาของท่านเพื่อดำเนินการต่อ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Horizontal Screenshot Reserved Box -->
+                    <div class="w-full aspect-[16/8] sm:aspect-[16/7] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-4 text-center overflow-hidden relative group">
+                        <div class="p-3 bg-white rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-bold text-gray-700">พื้นที่สำหรับใส่ภาพหน้าจอขั้นตอนที่ 2 (แนวนอน)</p>
+                        <p class="text-xs text-gray-400 mt-1">แสดงรายการวิชาที่บันทึกแล้วและการคลิกเข้ารายวิชา</p>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 border border-blue-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div class="flex items-center gap-4">
+                            <span class="step-badge text-white font-extrabold text-lg sm:text-xl w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shadow-md flex-shrink-0">
+                                3
+                            </span>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-gray-800">บันทึกข้อมูลนักเรียน มส. (ไม่มีสิทธิ์สอบ)</h3>
+                                <p class="text-gray-600 text-sm sm:text-base mt-0.5">เลื่อนลงมาด้านล่าง จะพบปุ่ม <span class="inline-flex items-center font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Add</span> เพื่อเพิ่มข้อมูลนักเรียน มส. บันทึกรายละเอียดให้ครบถ้วนแล้วกด <span class="font-semibold text-blue-600">Save</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Horizontal Screenshot Reserved Box -->
+                    <div class="w-full aspect-[16/8] sm:aspect-[16/7] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-4 text-center overflow-hidden relative group">
+                        <div class="p-3 bg-white rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-bold text-gray-700">พื้นที่สำหรับใส่ภาพหน้าจอขั้นตอนที่ 3 (แนวนอน)</p>
+                        <p class="text-xs text-gray-400 mt-1">แสดงฟอร์มการบันทึกนักเรียน มส. และปุ่ม Save</p>
+                    </div>
+                </div>
+
+                <!-- STEP 4 -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 border border-blue-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div class="flex items-center gap-4">
+                            <span class="step-badge text-white font-extrabold text-lg sm:text-xl w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shadow-md flex-shrink-0">
+                                4
+                            </span>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-gray-800">บันทึกข้อมูลแนวโน้ม 0, ร, มผ</h3>
+                                <p class="text-gray-600 text-sm sm:text-base mt-0.5">ถัดจากการบันทึก มส. จะพบส่วนบันทึกแนวโน้มผลการเรียน 0, ร และ มผ ให้กดปุ่ม <span class="inline-flex items-center font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Add</span> เพื่อกรอกข้อมูลนักเรียน แล้วกด <span class="font-semibold text-blue-600">Save</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Horizontal Screenshot Reserved Box -->
+                    <div class="w-full aspect-[16/8] sm:aspect-[16/7] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-4 text-center overflow-hidden relative group">
+                        <div class="p-3 bg-white rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-bold text-gray-700">พื้นที่สำหรับใส่ภาพหน้าจอขั้นตอนที่ 4 (แนวนอน)</p>
+                        <p class="text-xs text-gray-400 mt-1">แสดงส่วนการเพิ่มนักเรียนแนวโน้มติด 0, ร, มผ</p>
+                    </div>
+                </div>
+
+                <!-- STEP 5 -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 border border-blue-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div class="flex items-center gap-4">
+                            <span class="step-badge text-white font-extrabold text-lg sm:text-xl w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shadow-md flex-shrink-0">
+                                5
+                            </span>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-gray-800">ตรวจสอบและแก้ไขข้อมูล</h3>
+                                <p class="text-gray-600 text-sm sm:text-base mt-0.5">ตรวจสอบข้อมูลให้ถูกต้อง หากต้องการแก้ไข ให้กดที่ชื่อนักเรียน เลือก <span class="font-semibold text-purple-600 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">Edit</span> แก้ไขข้อมูลแล้วกด <span class="font-semibold text-blue-600">Save</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Horizontal Screenshot Reserved Box -->
+                    <div class="w-full aspect-[16/8] sm:aspect-[16/7] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-4 text-center overflow-hidden relative group">
+                        <div class="p-3 bg-white rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-bold text-gray-700">พื้นที่สำหรับใส่ภาพหน้าจอขั้นตอนที่ 5 (แนวนอน)</p>
+                        <p class="text-xs text-gray-400 mt-1">แสดงการกดเลือกรายชื่อนักเรียน การ Edit และ Save</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom CTA Link -->
+            <div class="mt-12 text-center bg-blue-50/80 rounded-2xl p-6 border border-blue-100">
+                <p class="text-gray-700 font-medium mb-4">อ่านขั้นตอนเข้าใจแล้ว สามารถเข้าสู่ระบบเพื่อเริ่มบันทึกข้อมูลได้ทันที</p>
+                <a href="https://www.appsheet.com/start/ff16bc26-95ea-4d59-93aa-a31e0030ab0c" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center justify-center px-6 py-3 text-base font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md">
+                    เปิดระบบบันทึกข้อมูล (AppSheet)
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>
+
+        </div>
+
+        <footer class="bg-white/80 backdrop-blur-sm p-5 text-center border-t border-gray-100 text-xs sm:text-sm text-gray-500 font-medium">
+            <p>© 2569 โรงเรียนวีรวัฒน์โยธิน สำนักงานเขตพื้นที่การศึกษามัธยมศึกษาสุรินทร์</p>
+        </footer>
+    </main>
+
+    <script>
+        function switchTab(tabName) {
+            const announcementView = document.getElementById('view-announcement');
+            const guideView = document.getElementById('view-guide');
+            const announcementBtn = document.getElementById('tab-announcement-btn');
+            const guideBtn = document.getElementById('tab-guide-btn');
+
+            if (tabName === 'announcement') {
+                announcementView.classList.remove('hidden');
+                announcementView.classList.add('block');
+                guideView.classList.remove('block');
+                guideView.classList.add('hidden');
+
+                announcementBtn.classList.add('active', 'text-blue-900');
+                announcementBtn.classList.remove('text-blue-100');
+                
+                guideBtn.classList.remove('active');
+                guideBtn.classList.add('text-blue-100');
+            } else if (tabName === 'guide') {
+                guideView.classList.remove('hidden');
+                guideView.classList.add('block');
+                announcementView.classList.remove('block');
+                announcementView.classList.add('hidden');
+
+                guideBtn.classList.add('active');
+                guideBtn.classList.remove('text-blue-100');
+
+                announcementBtn.classList.remove('active');
+                announcementBtn.classList.add('text-blue-100');
+            }
+
+            // Scroll top smoothly inside view
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
