@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประกาศ กำหนดการสอบปลายภาคเรียน 1/2569 โรงเรียนวีรวัฒน์โยธิน</title>
+    <title>การบริหารจัดการ การทดสอบปลายภาคเรียน 1/2569</title>
     <!-- FontAwesome & Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,7 +17,6 @@
             --accent-green: #10b981;
             --accent-purple: #8b5cf6;
             --bg-color: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.95);
             --text-dark: #1e293b;
             --text-muted: #64748b;
         }
@@ -40,9 +39,9 @@
         }
 
         .container {
-            max-width: 950px;
+            max-width: 1000px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(16px);
             border-radius: 28px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -56,19 +55,14 @@
             align-items: center;
             gap: 1.2rem;
             margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
+            padding-bottom: 1.2rem;
             border-bottom: 2px dashed #e2e8f0;
         }
 
         .logo {
-            width: 75px;
+            width: 70px;
             height: auto;
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
-            transition: transform 0.3s;
-        }
-
-        .logo:hover {
-            transform: scale(1.05) rotate(-3deg);
         }
 
         .header-title h1 {
@@ -79,29 +73,27 @@
         }
 
         .header-title p {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: var(--text-muted);
             font-weight: 500;
         }
 
-        /* Hero Banner - Highlight Main Exam Date */
+        /* Hero Banner - Main Exam Date */
         .hero-banner {
-            position: relative;
             background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 50%, #ff8c00 100%);
-            border-radius: 24px;
-            padding: 2.2rem 1.5rem;
+            border-radius: 20px;
+            padding: 1.8rem 1.5rem;
             text-align: center;
             color: white;
-            box-shadow: 0 15px 35px rgba(255, 75, 43, 0.4);
-            margin-bottom: 2.5rem;
-            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(255, 75, 43, 0.35);
+            margin-bottom: 2rem;
             border: 2px solid rgba(255, 255, 255, 0.4);
             animation: pulse-glow 3s infinite ease-in-out;
         }
 
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 12px 30px rgba(255, 75, 43, 0.4); }
-            50% { box-shadow: 0 20px 45px rgba(255, 75, 43, 0.7); }
+            0%, 100% { box-shadow: 0 12px 30px rgba(255, 75, 43, 0.35); }
+            50% { box-shadow: 0 18px 40px rgba(255, 75, 43, 0.65); }
         }
 
         .hero-badge {
@@ -109,22 +101,19 @@
             align-items: center;
             gap: 8px;
             background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(8px);
-            padding: 6px 18px;
+            padding: 4px 16px;
             border-radius: 50px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
+            margin-bottom: 0.6rem;
         }
 
-        .hero-badge .pulse-dot {
-            width: 10px;
-            height: 10px;
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
             background-color: #22c55e;
             border-radius: 50%;
-            box-shadow: 0 0 10px #22c55e;
+            box-shadow: 0 0 8px #22c55e;
             animation: blink 1.2s infinite;
         }
 
@@ -133,78 +122,53 @@
             50% { opacity: 0.2; }
         }
 
-        .hero-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
         .hero-date {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -1px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin: 0.3rem 0;
+            line-height: 1.2;
+            text-shadow: 0 3px 8px rgba(0,0,0,0.25);
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
-        .hero-date i {
-            font-size: 2.4rem;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            font-weight: 500;
-        }
-
-        /* Section Layout */
+        /* Grid Cards Layout */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
         }
 
-        .group-card {
+        .card {
             background: #ffffff;
-            border-radius: 20px;
-            padding: 1.5rem;
+            border-radius: 18px;
+            padding: 1.4rem;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.04);
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
         }
 
-        .group-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 18px 30px -10px rgba(0, 0, 0, 0.12);
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 24px -6px rgba(0, 0, 0, 0.1);
         }
 
         .card-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
-            padding-bottom: 1rem;
-            margin-bottom: 1.2rem;
-            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 1rem;
         }
 
-        .card-header i {
-            width: 42px;
-            height: 42px;
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -213,104 +177,148 @@
             color: white;
         }
 
-        .group-1 .card-header i { background: linear-gradient(135deg, #2563eb, #3b82f6); }
-        .group-2 .card-header i { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .group-3 .card-header i { background: linear-gradient(135deg, #10b981, #059669); }
+        .icon-blue { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+        .icon-red { background: linear-gradient(135deg, #ef4444, #f87171); }
+        .icon-orange { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .icon-purple { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .icon-green { background: linear-gradient(135deg, #10b981, #34d399); }
+        .icon-slate { background: linear-gradient(135deg, #475569, #64748b); }
 
-        .card-header h2 {
-            font-size: 1.15rem;
+        .card-title-group h2 {
+            font-size: 1.1rem;
             color: var(--text-dark);
             font-weight: 700;
+            line-height: 1.3;
         }
 
-        /* Event List Items */
-        .event-list {
+        .card-body {
+            margin-bottom: 1.2rem;
+            font-size: 0.92rem;
+            color: #334155;
+        }
+
+        .info-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.6rem;
         }
 
-        .event-item {
-            position: relative;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 14px;
-            border-left: 4px solid #cbd5e1;
-            transition: all 0.2s;
-        }
-
-        .event-item:hover {
-            background: #f1f5f9;
-        }
-
-        .event-date {
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--primary-dark);
+        .info-item {
             display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 4px;
-        }
-
-        .event-desc {
-            font-size: 0.95rem;
-            color: #334155;
+            align-items: flex-start;
+            gap: 8px;
             line-height: 1.4;
-            font-weight: 500;
         }
 
-        /* Specific Highlight items */
-        .event-item.highlight-main {
-            background: #eff6ff;
-            border-left-color: var(--primary);
-        }
-        .event-item.highlight-main .event-date {
-            color: var(--primary-dark);
+        .info-item i {
+            margin-top: 3px;
+            font-size: 0.85rem;
+            color: var(--primary);
         }
 
-        .event-item.highlight-urgent {
-            background: #fef2f2;
-            border-left-color: var(--accent-red);
-        }
-        .event-item.highlight-urgent .event-date {
+        .highlight-text {
             color: var(--accent-red);
-        }
-
-        .event-item.highlight-success {
-            background: #ecfdf5;
-            border-left-color: var(--accent-green);
-        }
-        .event-item.highlight-success .event-date {
-            color: var(--accent-green);
-        }
-
-        .badge-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 6px;
-            margin-left: 6px;
             font-weight: 600;
         }
 
-        .badge-red { background: #fee2e2; color: #dc2626; }
-        .badge-blue { background: #dbeafe; color: #1d4ed8; }
-        .badge-green { background: #d1fae5; color: #047857; }
+        /* Criteria List in Card 3 */
+        .criteria-box {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 0.8rem;
+            border-left: 3px solid var(--accent-orange);
+            font-size: 0.88rem;
+            margin-top: 0.5rem;
+        }
+
+        .criteria-box ol {
+            padding-left: 1.2rem;
+        }
+
+        .criteria-box li {
+            margin-bottom: 4px;
+        }
+
+        /* Action Buttons with Left Icon */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-orange {
+            background: var(--accent-orange);
+            color: white;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.25);
+        }
+        .btn-orange:hover {
+            background: #d97706;
+        }
+
+        .btn-green {
+            background: var(--accent-green);
+            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+        }
+        .btn-green:hover {
+            background: #059669;
+        }
+
+        .btn-outline {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-outline:hover {
+            background: #e2e8f0;
+            color: var(--text-dark);
+        }
+
+        .btn-disabled {
+            background: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .multi-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
         footer {
             margin-top: 2.5rem;
             text-align: center;
             color: var(--text-muted);
             font-size: 0.88rem;
-            padding-top: 1.5rem;
+            padding-top: 1.2rem;
             border-top: 1px solid #e2e8f0;
         }
 
         @media (max-width: 640px) {
             header { flex-direction: column; text-align: center; }
-            .hero-date { font-size: 2.2rem; }
+            .hero-date { font-size: 1.8rem; }
             .container { padding: 1.5rem 1rem; }
         }
     </style>
@@ -318,134 +326,209 @@
 <body>
 
     <div class="container">
-        <!-- Header Section -->
+        <!-- Header -->
         <header>
-            <img src="https://www.weerawat.ac.th/web/images/pic2561/logo%20wt.png" alt="ตราโรงเรียนวีรวัฒน์โยธิน" class="logo">
+            <img src="https://www.weerawat.ac.th/web/images/pic2561/logo%20wt.png" alt="ตราโรงเรียน" class="logo">
             <div class="header-title">
-                <h1>ประกาศ กำหนดการสอบปลายภาคเรียน 1/2569</h1>
-                <p>โรงเรียนวีรวัฒน์โยธิน จังหวัดสุรินทร์ สพม.สุรินทร์</p>
+                <h1>การบริหารจัดการ การทดสอบปลายภาคเรียน 1/2569</h1>
+                <p>งานวัดและประเมินผล กลุ่มบริหารวิชาการ โรงเรียนวีรวัฒน์โยธิน</p>
             </div>
         </header>
 
-        <!-- Hero Highlight Banner (เน้นวันสอบรอบปกติ) -->
+        <!-- Main Banner -->
         <div class="hero-banner">
             <div class="hero-badge">
                 <span class="pulse-dot"></span>
-                <span>สำคัญมาก • กำหนดการสอบหลัก</span>
+                <span>กำหนดการสอบหลัก</span>
             </div>
-            <div class="hero-title">กำหนดสอบปลายภาครอบปกติ ทุกระดับชั้น</div>
             <div class="hero-date">
-                <i class="fa-solid fa-calendar-star"></i>
-                <span>21 - 23 กันยายน 2569</span>
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>สอบปลายภาค: 21 - 23 กันยายน 2569</span>
             </div>
-            <div class="hero-subtitle">ขอให้บุคลากรครูและนักเรียนเตรียมความพร้อมสำหรับการสอบตามตาราง</div>
         </div>
 
-        <!-- 3 Main Groups Layout -->
+        <!-- 6 Main Action Cards -->
         <div class="grid-container">
-            
-            <!-- กลุ่มที่ 1: การสอบปลายภาค (รอบปกติ) -->
-            <div class="group-card group-1">
-                <div class="card-header">
-                    <i class="fa-solid fa-file-pen"></i>
-                    <h2>1. การสอบปลายภาค</h2>
+
+            <!-- Card 1 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <h2>1. กำหนดการสอบปลายภาค</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <i class="fa-solid fa-circle-right"></i>
+                                <span><strong>สอบนอกตาราง:</strong> 14 - 18 ก.ย. 2569</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-circle-right"></i>
+                                <span><strong>สอบในตาราง:</strong> 21 - 23 ก.ย. 2569</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <ul class="event-list">
-                    <li class="event-item">
-                        <div class="event-date">
-                            <i class="fa-solid fa-clock"></i> ภายใน 11 กันยายน 2569
-                        </div>
-                        <div class="event-desc">
-                            ส่งต้นฉบับข้อสอบ (วัดผลฯ กลุ่มสาระฯ และหัวหน้ากลุ่มสาระฯ อนุมัติสอบ)
-                        </div>
-                    </li>
-                    <li class="event-item">
-                        <div class="event-date">
-                            <i class="fa-solid fa-box-archive"></i> 14 - 18 กันยายน 2569
-                        </div>
-                        <div class="event-desc">
-                            ส่งข้อสอบปลายภาค ณ ห้องวิชาการ
-                        </div>
-                    </li>
-                    <li class="event-item highlight-main">
-                        <div class="event-date">
-                            <i class="fa-solid fa-star"></i> 21 - 23 กันยายน 2569
-                            <span class="badge-tag badge-blue">สอบรอบปกติ</span>
-                        </div>
-                        <div class="event-desc">
-                            <strong>ดำเนินการสอบปลายภาครอบปกติ ทุกระดับชั้น</strong>
-                        </div>
-                    </li>
-                    <li class="event-item highlight-urgent">
-                        <div class="event-date">
-                            <i class="fa-solid fa-file-export"></i> ภายในวันที่ 1 ตุลาคม 2569
-                            <span class="badge-tag badge-red">สำคัญ</span>
-                        </div>
-                        <div class="event-desc">
-                            <strong>กำหนดส่ง ปพ.5 รอบปกติ</strong>
-                        </div>
-                    </li>
-                </ul>
+                <a href="https://krit-sk.github.io/assessment/169/final/event" target="_blank" class="btn btn-primary">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>รายละเอียดเพิ่มเติม</span>
+                </a>
             </div>
 
-            <!-- กลุ่มที่ 2: การสอบปลายภาคนอกตาราง -->
-            <div class="group-card group-2">
-                <div class="card-header">
-                    <i class="fa-solid fa-calendar-minus"></i>
-                    <h2>2. การสอบนอกตาราง</h2>
+            <!-- Card 2 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon icon-red">
+                            <i class="fa-solid fa-user-xmark"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <h2>2. รายชื่อนักเรียนไม่มีสิทธิ์สอบ</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <i class="fa-solid fa-clock"></i>
+                                <span><strong>ส่งรายชื่อ (0, ร, มผ.):</strong> ภายใน 3 ก.ย. 2569</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-bullhorn"></i>
+                                <span><strong>ประกาศรายชื่อ:</strong> 7 ก.ย. 2569</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <ul class="event-list">
-                    <li class="event-item">
-                        <div class="event-date">
-                            <i class="fa-solid fa-pen-ruler"></i> 14 - 18 กันยายน 2569
-                        </div>
-                        <div class="event-desc">
-                            ดำเนินการสอบนอกตาราง
-                        </div>
-                    </li>
-                    <li class="event-item highlight-urgent">
-                        <div class="event-date">
-                            <i class="fa-solid fa-file-circle-check"></i> ภายใน 28 กันยายน 2569
-                            <span class="badge-tag badge-red">ส่งเอกสาร</span>
-                        </div>
-                        <div class="event-desc">
-                            กำหนดส่ง ปพ.5 วิชาสอบนอกตาราง
-                        </div>
-                    </li>
-                </ul>
+                <a href="https://krit-sk.github.io/assessment/169/u-final/" target="_blank" class="btn btn-primary">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>ส่งรายชื่อไม่มีสิทธิ์สอบ</span>
+                </a>
             </div>
 
-            <!-- กลุ่มที่ 3: การแจ้งผลการเรียน -->
-            <div class="group-card group-3">
-                <div class="card-header">
-                    <i class="fa-solid fa-square-poll-vertical"></i>
-                    <h2>3. การแจ้งผลการเรียน</h2>
+            <!-- Card 3 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">
+                            <i class="fa-solid fa-clipboard-question"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <h2>3. สำรวจรายวิชาสอบปลายภาค</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="highlight-text"><i class="fa-solid fa-triangle-exclamation"></i> สำรวจภายใน 31 สิงหาคม 2569</p>
+                        <div class="criteria-box">
+                            <strong>ข้อกำหนดรายวิชาสอบปลายภาค:</strong>
+                            <ol>
+                                <li>สอบรายวิชาพื้นฐานทุกวิชาทุกกลุ่มสาระฯ ในตาราง</li>
+                                <li>สอบรายวิชาหลัก ฟิสิกส์ เคมี ชีวะฯ ในตาราง</li>
+                                <li>วิชาเพิ่มเติมสอบนอกตารางหรือประสงค์สอบในตารางได้ (ขึ้นอยู่กับเวลาสอบ)</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
-                <ul class="event-list">
-                    <li class="event-item">
-                        <div class="event-date">
-                            <i class="fa-solid fa-user-check"></i> ภายใน 6 ตุลาคม 2569
+                <a href="https://www.appsheet.com/start/22e549d4-37da-4864-be35-23f118d37a61" target="_blank" class="btn btn-orange">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>ทำแบบสำรวจรายวิชา</span>
+                </a>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon icon-purple">
+                            <i class="fa-solid fa-square-check"></i>
                         </div>
-                        <div class="event-desc">
-                            ตรวจ ปพ.5 แก้ไขคะแนน / ผลการเรียน
+                        <div class="card-title-group">
+                            <h2>4. การส่งคะแนนด้วยระบบตรวจข้อสอบ</h2>
                         </div>
-                    </li>
-                    <li class="event-item highlight-success">
-                        <div class="event-date">
-                            <i class="fa-solid fa-bullhorn"></i> 8 ตุลาคม 2569
-                            <span class="badge-tag badge-green">แจ้งผล</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="criteria-box" style="border-left-color: var(--accent-purple); background: #f3e8ff;">
+                            <p style="color: #6b21a8; font-weight: 600;">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                "ส่งผ่านครูวัดผลฯ กลุ่มสาระการเรียนรู้นั้นๆ เท่านั้น"
+                            </p>
                         </div>
-                        <div class="event-desc">
-                            <strong>สรุปผลการเรียน และแจ้งผลการเรียน</strong>
+                    </div>
+                </div>
+                <button class="btn btn-outline" style="cursor: default;">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>ติดต่อครูวัดผลกลุ่มสาระฯ</span>
+                </button>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon icon-green">
+                            <i class="fa-solid fa-file-export"></i>
                         </div>
-                    </li>
-                </ul>
+                        <div class="card-title-group">
+                            <h2>5. กำหนดส่ง ปพ.5 ปลายภาค</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <i class="fa-solid fa-file-circle-check"></i>
+                                <span><strong>วิชาสอบนอกตาราง:</strong> ส่งภายใน 28 ก.ย. 2569</span>
+                            </li>
+                            <li class="info-item">
+                                <i class="fa-solid fa-file-circle-check"></i>
+                                <span><strong>วิชาสอบในตาราง:</strong> ส่งภายใน 1 ต.ค. 2569</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="https://krit-sk.github.io/assessment/169/final/pt5" target="_blank" class="btn btn-green">
+                    <i class="fa-solid fa-upload"></i>
+                    <span>ระบบส่ง ปพ.5</span>
+                </a>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon icon-slate">
+                            <i class="fa-solid fa-folder-tree"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <h2>6. ข้อมูลเพิ่มเติม & ลิงก์ระบบ</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="multi-btn-group">
+                            <button class="btn btn-disabled" disabled>
+                                <i class="fa-solid fa-lock"></i>
+                                <span>คำสั่งและตารางสอบ (ยังไม่ประกาศ)</span>
+                            </button>
+                            <a href="https://sgs.bopp-obec.info/sgs/" target="_blank" class="btn btn-outline">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                <span>เข้าสู่ระบบ SGS</span>
+                            </a>
+                            <a href="https://drive.google.com/drive/folders/1sT9QcNQeHw1a3MDOnMP8Fb0O4SA3lDq9" target="_blank" class="btn btn-outline">
+                                <i class="fa-brands fa-google-drive"></i>
+                                <span>เอกสารกระเป๋าข้อสอบ</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
 
         <footer>
-            <p>© 2569 งานวัดและประเมินผล กลุ่มบริหารวิชาการ โรงเรียนวีรวัฒน์โยธิน จ.สุรินทร์</p>
+            <p>© 2569 งานวัดและประเมินผล กลุ่มบริหารวิชาการ โรงเรียนวีรวัฒน์โยธิน</p>
         </footer>
     </div>
 
