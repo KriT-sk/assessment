@@ -41,7 +41,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 850px;
             width: 100%;
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(16px);
@@ -68,27 +68,27 @@
         }
 
         .header-title h1 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary-dark);
             line-height: 1.3;
         }
 
         .header-title p {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
             font-weight: 500;
         }
 
         /* Hero Banner */
         .hero-banner {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e1b4b 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #1d4ed8 100%);
             border-radius: 20px;
-            padding: 1.8rem 1.5rem;
+            padding: 1.5rem;
             text-align: center;
             color: white;
             box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
@@ -99,141 +99,152 @@
             background: rgba(255, 255, 255, 0.2);
             padding: 4px 16px;
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
         }
 
         .hero-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
             line-height: 1.2;
-            text-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
-        /* Timeline Grid Layout */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+        /* Continuous Timeline Component */
+        .timeline-container {
+            position: relative;
+            padding-left: 2.5rem;
+            margin: 1rem 0;
         }
 
-        .group-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 1.5rem;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
+        /* Continuous Line */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            bottom: 15px;
+            left: 19px;
+            width: 4px;
+            background: linear-gradient(to bottom, #f59e0b, #8b5cf6, #10b981);
+            border-radius: 4px;
         }
 
-        .group-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 28px -6px rgba(0, 0, 0, 0.1);
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.8rem;
+            transition: all 0.25s ease;
         }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 1rem;
-            margin-bottom: 1.2rem;
-            border-bottom: 2px solid #f1f5f9;
+        .timeline-item:last-child {
+            margin-bottom: 0;
         }
 
-        .card-header i {
-            width: 44px;
-            height: 44px;
-            min-width: 44px;
-            border-radius: 12px;
+        /* Icon Node on Timeline Line */
+        .timeline-icon {
+            position: absolute;
+            left: -2.5rem;
+            top: 4px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
             color: white;
+            font-size: 1.05rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border: 3px solid #ffffff;
+            z-index: 2;
         }
 
-        .group-1 .card-header i { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .group-2 .card-header i { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-        .group-3 .card-header i { background: linear-gradient(135deg, #10b981, #047857); }
-
-        .card-header h2 {
-            font-size: 1.15rem;
-            color: var(--text-dark);
-            font-weight: 700;
+        /* Content Card */
+        .timeline-content {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.2rem 1.4rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
         }
 
-        /* Event List Items */
-        .event-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .timeline-item:hover .timeline-content {
+            transform: translateX(6px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
         }
 
-        .event-item {
-            position: relative;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 14px;
-            border-left: 4px solid #cbd5e1;
-            transition: all 0.2s;
-        }
-
-        .event-item:hover {
-            background: #f1f5f9;
-        }
-
-        .event-date {
-            font-size: 0.9rem;
-            font-weight: 700;
+        .timeline-date-header {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 4px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
         }
 
-        .event-desc {
-            font-size: 0.95rem;
+        .timeline-date {
+            font-size: 1.05rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-desc {
+            font-size: 0.98rem;
             color: #334155;
-            line-height: 1.4;
             font-weight: 500;
+            line-height: 1.4;
         }
 
-        /* Color variations for timeline items */
-        .item-orange { border-left-color: var(--accent-orange); }
-        .item-orange .event-date { color: #d97706; }
+        /* Theme Variations for Timeline Items */
+        /* Orange Theme - แจ้งผล / แก้ไข */
+        .theme-orange .timeline-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .theme-orange .timeline-date { color: #d97706; }
+        .theme-orange .timeline-content { border-left: 4px solid #f59e0b; }
 
-        .item-red { border-left-color: var(--accent-red); background: #fef2f2; }
-        .item-red .event-date { color: var(--accent-red); }
+        /* Red Theme - ติด 0, ร, มส. / แก้ไข */
+        .theme-red .timeline-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .theme-red .timeline-date { color: #dc2626; }
+        .theme-red .timeline-content { border-left: 4px solid #ef4444; background: #fff8f8; }
 
-        .item-purple { border-left-color: var(--accent-purple); }
-        .item-purple .event-date { color: #6d28d9; }
+        /* Purple Theme - O-NET ม.6 */
+        .theme-purple .timeline-icon { background: linear-gradient(135deg, #8b5cf6, #7e22ce); }
+        .theme-purple .timeline-date { color: #7e22ce; }
+        .theme-purple .timeline-content { border-left: 4px solid #8b5cf6; }
 
-        .item-blue { border-left-color: var(--primary); }
-        .item-blue .event-date { color: var(--primary-dark); }
+        /* Blue Theme - สอบกลางภาค */
+        .theme-blue .timeline-icon { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .theme-blue .timeline-date { color: #1d4ed8; }
+        .theme-blue .timeline-content { border-left: 4px solid #2563eb; background: #f4f8ff; }
 
-        .item-green { border-left-color: var(--accent-green); }
-        .item-green .event-date { color: #047857; }
+        /* Teal Theme - O-NET ม.3 */
+        .theme-teal .timeline-icon { background: linear-gradient(135deg, #0d9488, #0f766e); }
+        .theme-teal .timeline-date { color: #0d9488; }
+        .theme-teal .timeline-content { border-left: 4px solid #0d9488; }
 
-        .item-teal { border-left-color: var(--accent-teal); }
-        .item-teal .event-date { color: #0d9488; }
+        /* Green Theme - สอบปลายภาค */
+        .theme-green .timeline-icon { background: linear-gradient(135deg, #10b981, #047857); }
+        .theme-green .timeline-date { color: #047857; }
+        .theme-green .timeline-content { border-left: 4px solid #10b981; background: #f0fdf4; }
 
-        .badge-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 6px;
-            margin-left: 6px;
-            font-weight: 600;
+        /* Badge Styling */
+        .badge {
+            font-size: 0.78rem;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .badge-red { background: #fee2e2; color: #dc2626; }
-        .badge-blue { background: #dbeafe; color: #1d4ed8; }
-        .badge-purple { background: #f3e8ff; color: #7e22ce; }
-        .badge-green { background: #d1fae5; color: #047857; }
+        .badge-orange { background: #fef3c7; color: #b45309; }
+        .badge-red { background: #fee2e2; color: #b91c1c; }
+        .badge-purple { background: #f3e8ff; color: #6b21a8; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-teal { background: #ccfbf1; color: #115e59; }
+        .badge-green { background: #d1fae5; color: #065f46; }
 
         footer {
             margin-top: 2.5rem;
@@ -246,8 +257,11 @@
 
         @media (max-width: 640px) {
             header { flex-direction: column; text-align: center; }
-            .hero-title { font-size: 1.4rem; }
+            .hero-title { font-size: 1.3rem; }
             .container { padding: 1.5rem 1rem; }
+            .timeline-container { padding-left: 2rem; }
+            .timeline-container::before { left: 14px; }
+            .timeline-icon { left: -2rem; width: 34px; height: 34px; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -266,126 +280,177 @@
         <!-- Main Banner -->
         <div class="hero-banner">
             <div class="hero-badge">
-                <i class="fa-solid fa-calendar-days"></i>
-                <span>ปฏิทินงานวัดและประเมินผล</span>
+                <i class="fa-solid fa-timeline"></i>
+                <span>Timeline กำหนดการสำคัญ</span>
             </div>
             <div class="hero-title">
-                กำหนดการวัดและประเมินผลการจัดการเรียนรู้
+                ปฏิทินการวัดและประเมินผลการจัดการเรียนรู้
             </div>
         </div>
 
-        <!-- 3 Main Categories Grid -->
-        <div class="grid-container">
+        <!-- Continuous Timeline Container -->
+        <div class="timeline-container">
 
-            <!-- หมวดที่ 1: แจ้งผลการเรียน & แก้ไขผลการเรียน (1/2569) -->
-            <div class="group-card group-1">
-                <div class="card-header">
-                    <i class="fa-solid fa-bullhorn"></i>
-                    <h2>1. แจ้งผลการเรียน & แก้ไขผลการเรียน (1/2569)</h2>
+            <!-- Item 1: 8 ต.ค. 2569 -->
+            <div class="timeline-item theme-orange">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-square-poll-vertical"></i>
                 </div>
-                <ul class="event-list">
-                    <li class="event-item item-orange">
-                        <div class="event-date">
-                            <i class="fa-solid fa-square-poll-vertical"></i> 8 ตุลาคม 2569
-                            <span class="badge-tag badge-blue">แจ้งผล</span>
-                        </div>
-                        <div class="event-desc">
-                            สรุปผลการเรียนและแจ้งผลการเรียนนักเรียน
-                        </div>
-                    </li>
-                    <li class="event-item item-red">
-                        <div class="event-date">
-                            <i class="fa-solid fa-user-large-slash"></i> 26 ตุลาคม 2569
-                            <span class="badge-tag badge-red">ประกาศ</span>
-                        </div>
-                        <div class="event-desc">
-                            ประกาศรายชื่อนักเรียนติด 0, ร, มส., มผ.
-                        </div>
-                    </li>
-                    <li class="event-item item-orange">
-                        <div class="event-date">
-                            <i class="fa-solid fa-pen-to-square"></i> 26 ต.ค. – 6 พ.ย. 2569
-                            <span class="badge-tag badge-red">สำคัญ</span>
-                        </div>
-                        <div class="event-desc">
-                            <strong>กำหนดการแก้ไขผลการเรียน (แก้ 0, ร, มส., มผ.)</strong>
-                        </div>
-                    </li>
-                </ul>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-day"></i> 8 ตุลาคม 2569
+                        </span>
+                        <span class="badge badge-orange">แจ้งผลการเรียน</span>
+                    </div>
+                    <div class="timeline-desc">
+                        สรุปผลการเรียนและแจ้งผลการเรียนนักเรียน
+                    </div>
+                </div>
             </div>
 
-            <!-- หมวดที่ 2: ติว O-NET ม.6 & สอบกลางภาค 2/2569 -->
-            <div class="group-card group-2">
-                <div class="card-header">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <h2>2. สอบกลางภาค & O-NET ม.6</h2>
+            <!-- Item 2: 26 ต.ค. 2569 -->
+            <div class="timeline-item theme-red">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-user-xmark"></i>
                 </div>
-                <ul class="event-list">
-                    <li class="event-item item-purple">
-                        <div class="event-date">
-                            <i class="fa-solid fa-chalkboard-user"></i> 14 - 25 ธันวาคม 2569
-                            <span class="badge-tag badge-purple">ติวเข้ม</span>
-                        </div>
-                        <div class="event-desc">
-                            กำหนดติว O-NET ม.6
-                        </div>
-                    </li>
-                    <li class="event-item item-blue">
-                        <div class="event-date">
-                            <i class="fa-solid fa-file-pen"></i> 29 - 30 ธันวาคม 2569
-                            <span class="badge-tag badge-blue">สอบกลางภาค</span>
-                        </div>
-                        <div class="event-desc">
-                            <strong>กำหนดสอบกลางภาคเรียนที่ 2/2569</strong>
-                        </div>
-                    </li>
-                    <li class="event-item item-purple">
-                        <div class="event-date">
-                            <i class="fa-solid fa-award"></i> 10 - 13 มกราคม 2570
-                            <span class="badge-tag badge-purple">สอบ O-NET</span>
-                        </div>
-                        <div class="event-desc">
-                            <strong>ทดสอบ O-NET ระดับชั้น ม.6</strong>
-                        </div>
-                    </li>
-                </ul>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-day"></i> 26 ตุลาคม 2569
+                        </span>
+                        <span class="badge badge-red">ประกาศสำคัญ</span>
+                    </div>
+                    <div class="timeline-desc">
+                        ประกาศรายชื่อนักเรียนติด 0, ร, มส., มผ.
+                    </div>
+                </div>
             </div>
 
-            <!-- หมวดที่ 3: ติว O-NET ม.3 & สอบปลายภาค 2/2569 -->
-            <div class="group-card group-3">
-                <div class="card-header">
-                    <i class="fa-solid fa-book-bookmark"></i>
-                    <h2>3. O-NET ม.3 & สอบปลายภาค 2/2569</h2>
+            <!-- Item 3: 26 ต.ค. - 6 พ.ย. 2569 -->
+            <div class="timeline-item theme-orange">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-pen-to-square"></i>
                 </div>
-                <ul class="event-list">
-                    <li class="event-item item-teal">
-                        <div class="event-date">
-                            <i class="fa-solid fa-chalkboard-user"></i> 18 - 29 มกราคม 2570
-                            <span class="badge-tag badge-green">ติวเข้ม</span>
-                        </div>
-                        <div class="event-desc">
-                            กำหนดติว O-NET ม.3
-                        </div>
-                    </li>
-                    <li class="event-item item-teal">
-                        <div class="event-date">
-                            <i class="fa-solid fa-award"></i> 1 - 8 กุมภาพันธ์ 2570
-                            <span class="badge-tag badge-green">สอบ O-NET</span>
-                        </div>
-                        <div class="event-desc">
-                            <strong>ทดสอบ O-NET ระดับชั้น ม.3</strong>
-                        </div>
-                    </li>
-                    <li class="event-item item-green">
-                        <div class="event-date">
-                            <i class="fa-solid fa-star"></i> 8 - 10 มีนาคม 2570
-                            <span class="badge-tag badge-green">สอบปลายภาค</span>
-                        </div>
-                        <div class="event-desc">
-                            <strong>กำหนดสอบปลายภาคเรียนที่ 2/2569</strong>
-                        </div>
-                    </li>
-                </ul>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-range"></i> 26 ต.ค. – 6 พ.ย. 2569
+                        </span>
+                        <span class="badge badge-orange">แก้ไขผลการเรียน</span>
+                    </div>
+                    <div class="timeline-desc">
+                        <strong>กำหนดการแก้ไขผลการเรียน (แก้ 0, ร, มส., มผ.)</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4: 14-25 ธ.ค. 2569 -->
+            <div class="timeline-item theme-purple">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-range"></i> 14 - 25 ธันวาคม 2569
+                        </span>
+                        <span class="badge badge-purple">ติวเข้ม O-NET</span>
+                    </div>
+                    <div class="timeline-desc">
+                        กำหนดติว O-NET ระดับชั้น ม.6
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5: 29-30 ธ.ค. 2569 -->
+            <div class="timeline-item theme-blue">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-file-pen"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-days"></i> 29 - 30 ธันวาคม 2569
+                        </span>
+                        <span class="badge badge-blue">สอบกลางภาค</span>
+                    </div>
+                    <div class="timeline-desc">
+                        <strong>กำหนดสอบกลางภาคเรียนที่ 2/2569</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 6: 10-13 ม.ค. 2570 -->
+            <div class="timeline-item theme-purple">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-days"></i> 10 - 13 มกราคม 2570
+                        </span>
+                        <span class="badge badge-purple">สอบ O-NET ม.6</span>
+                    </div>
+                    <div class="timeline-desc">
+                        <strong>การทดสอบ O-NET ระดับชั้น ม.6</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 7: 18-29 ม.ค. 2570 -->
+            <div class="timeline-item theme-teal">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-range"></i> 18 - 29 มกราคม 2570
+                        </span>
+                        <span class="badge badge-teal">ติวเข้ม O-NET</span>
+                    </div>
+                    <div class="timeline-desc">
+                        กำหนดติว O-NET ระดับชั้น ม.3
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 8: 1-8 ก.พ. 2570 -->
+            <div class="timeline-item theme-teal">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-days"></i> 1 - 8 กุมภาพันธ์ 2570
+                        </span>
+                        <span class="badge badge-teal">สอบ O-NET ม.3</span>
+                    </div>
+                    <div class="timeline-desc">
+                        <strong>การทดสอบ O-NET ระดับชั้น ม.3</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 9: 8-10 มี.ค. 2570 -->
+            <div class="timeline-item theme-green">
+                <div class="timeline-icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-date-header">
+                        <span class="timeline-date">
+                            <i class="fa-solid fa-calendar-check"></i> 8 - 10 มีนาคม 2570
+                        </span>
+                        <span class="badge badge-green">สอบปลายภาค</span>
+                    </div>
+                    <div class="timeline-desc">
+                        <strong>กำหนดสอบปลายภาคเรียนที่ 2/2569</strong>
+                    </div>
+                </div>
             </div>
 
         </div>
