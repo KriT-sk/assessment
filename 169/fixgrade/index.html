@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บันทึกแก้ผลการเรียน</title>
+  <!-- Bootstrap 5 CSS เพื่อความสวยงาม -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- LINE LIFF SDK v2 -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    body { 
+      background-color: #f4f6f9; 
+      padding: 15px; 
+      font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    }
+    .card { 
+      border-radius: 12px; 
+      border: none; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    }
+    .form-label {
+      font-weight: 600;
+      color: #495057;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card p-3">
+    <h5 class="text-primary fw-bold mb-3">📝 บันทึกแก้ผลการเรียน (0, ร, มส)</h5>
+    
+    <form id="gradeForm">
+      <!-- ชื่อครูผู้บันทึก (ดึงจาก LINE อัตโนมัติ) -->
+      <div class="mb-2">
+        <label class="form-label small mb-1">ครูผู้บันทึก</label>
+        <input type="text" id="teacherName" class="form-control form-control-sm" readonly style="background-color: #e9ecef;" placeholder="กำลังดึงข้อมูล LINE...">
+      </div>
+
+      <hr class="my-3">
+
+      <!-- ข้อมูลนักเรียน -->
+      <div class="mb-2">
+        <label class="form-label small mb-1">เลขประจำตัวนักเรียน</label>
+        <input type="text" id="studentId" class="form-control form-control-sm" required placeholder="เช่น 12345">
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label small mb-1">ชื่อ-นามสกุล นักเรียน</label>
+        <input type="text" id="studentName" class="form-control form-control-sm" required placeholder="เช่น นายรักเรียน เพียรศึกษา">
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label small mb-1">ชั้น / ห้อง</label>
+        <input type="text" id="classRoom" class="form-control form-control-sm" required placeholder="เช่น ม.5/1">
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label small mb-1">รหัสวิชา / ชื่อวิชา</label>
+        <input type="text" id="subject" class="form-control form-control-sm" required placeholder="เช่น ค32101 คณิตศาสตร์">
+      </div>
+
+      <!-- ผลการเรียนเดิม และ เกรดใหม่ -->
+      <div class="row g-2 mb-3">
+        <div class="col-6">
+          <label class="form-label small mb-1">ผลเดิม</label>
+          <select id="oldGrade" class="form-select form-select-sm">
+            <option value="0">0</option>
+            <option value="ร">ร</option>
+            <option value="มส">มส</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <label class="form-label small mb-1">เกรดใหม่</label>
+          <select id="newGrade" class="form-select form-select-sm">
+            <option value="1.0">1.0</option>
+            <option value="1.5">1.5</option>
+            <option value="2.0">2.0</option>
+            <option value="2.5">2.5</option>
+            <option value="3.0">3.0</option>
+            <option value="3.5">3.5</option>
+            <option value="4.0">4.0</option>
+            <option value="ผ่าน">ผ่าน</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" id="btnSubmit" class="btn btn-primary w-100 btn-sm fw-bold">ส่งข้อมูลเข้าแชต</button>
+    </form>
+  </div>
+
+  <script>
+    // ⚠️ นำ LIFF ID ที่ได้จากหน้า LINE Login channel มาวางตรงนี้
+    const MY_LIFF_ID = "YOUR_LIFF_ID_HERE"; 
+
+    async function main() {
+      try {
+        await liff.init({ liffId: MY_LIFF_ID });
+        if (!liff.isLoggedIn()) {
+          liff.login();
+        } else {
+          const profile = await liff.getProfile();
+          document.getElementById('teacherName').value = profile.displayName;
+        }
+      } catch (err) {
+        console.error("LIFF Init Error:", err);
+      }
+    }
+    main();
+
+    document.getElementById('gradeForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.innerText = "กำลังส่งข้อมูล...";
+
+      const teacherName = document.getElementById('teacherName').value;
+      const studentId = document.getElementById('studentId').value;
+      const studentName = document.getElementById('studentName').value;
+      const classRoom = document.getElementById('classRoom').value;
+      const subject = document.getElementById('subject').value;
+      const oldGrade = document.getElementById('oldGrade').value;
+      const newGrade = document.getElementById('newGrade').value;
+
+      // สร้างสุ่มเลขที่อ้างอิง และเวลาบันทึก
+      const refNo = "REF-" + Math.floor(100000 + Math.random() * 900000);
+      const now = new Date();
+      const timeString = now.toLocaleDateString('th-TH') + ' | ' + now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+
+      // โครงสร้าง Flex Message
+      const flexPayload = {
+        type: "flex",
+        altText: `บันทึกแก้ผลการเรียน: ${studentName}`,
+        contents: {
+          type: "bubble",
+          header: {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              { type: "text", text: "ใบยืนยันการแก้ผลการเรียน", weight: "bold", color: "#FFFFFF", size: "md" },
+              { type: "text", text: "ฝ่ายวัดผลและประเมินผลการเรียน", color: "#E0E0E0", size: "xs" }
+            ],
+            backgroundColor: "#003366"
+          },
+          body: {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              {
+                type: "box", layout: "horizontal",
+                contents: [
+                  { type: "text", text: "เลขที่อ้างอิง:", size: "xs", color: "#AAAAAA" },
+                  { type: "text", text: refNo, size: "xs", color: "#000000", weight: "bold", align: "end" }
+                ]
+              },
+              { type: "separator", margin: "md" },
+              {
+                type: "box", layout: "vertical", margin: "md", spacing: "xs",
+                contents: [
+                  { type: "text", text: `ผู้บันทึก: ${teacherName}`, size: "xs", color: "#555555", weight: "bold" },
+                  { type: "text", text: `นักเรียน: ${studentName} (${studentId})`, size: "sm", weight: "bold" },
+                  { type: "text", text: `ชั้น/ห้อง: ${classRoom}`, size: "sm", color: "#666666" },
+                  { type: "text", text: `วิชา: ${subject}`, size: "sm", color: "#666666" },
+                  { type: "text", text: `ผลเดิม: ${oldGrade}`, size: "sm", color: "#FF0000", weight: "bold" }
+                ]
+              },
+              {
+                type: "box", layout: "vertical", margin: "md", backgroundColor: "#E8F5E9", paddingAll: "sm", cornerRadius: "md",
+                contents: [
+                  { type: "text", text: "สถานะ: ติดตามและแก้ไขแล้ว", size: "xs", color: "#2E7D32" },
+                  { type: "text", text: `เกรดใหม่: ${newGrade}`, size: "md", color: "#1B5E20", weight: "bold" }
+                ]
+              },
+              { type: "text", text: `เวลาบันทึก: ${timeString}`, size: "xxs", color: "#AAAAAA", margin: "md" }
+            ]
+          }
+        }
+      };
+
+      // ส่ง Flex Message ออกไปในแชต LINE
+      try {
+        await liff.sendMessages([flexPayload]);
+        alert("บันทึกและส่งข้อมูลสำเร็จ!");
+        liff.closeWindow(); // ปิดหน้าต่าง LIFF ทันที
+      } catch (err) {
+        alert("เกิดข้อผิดพลาดในการส่งข้อมูล: " + err.message);
+        btn.disabled = false;
+        btn.innerText = "ส่งข้อมูลเข้าแชต";
+      }
+    });
+  </script>
+</body>
+</html>
