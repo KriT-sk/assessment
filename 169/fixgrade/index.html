@@ -170,8 +170,8 @@
     <!-- Header visual -->
     <div class="app-header">
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="header-title h6 mb-0 text-white fw-bold"><i class="fa-solid fa-graduation-cap me-2"></i>ระบบแก้ผลการเรียน</span>
-        <span class="badge bg-white text-dark rounded-pill px-2 py-1 align-self-start" style="font-size: 0.7rem;">v2.1</span>
+        <span class="header-title h6 mb-0 text-white fw-bold"><i class="fa-solid fa-graduation-cap me-2"></i>ระบบบันทึกแก้ไขผลการเรียน</span>
+        <span class="badge bg-white text-dark rounded-pill px-2 py-1 align-self-start" style="font-size: 0.7rem;">วีรวัฒน์โยธิน</span>
       </div>
       <div class="teacher-badge mt-1">
         <i class="fa-solid fa-user-check text-warning"></i>
@@ -403,7 +403,7 @@
               },
               {
                 type: "text",
-                text: "กลุ่มบริหารวิชาการ • ฝ่ายวัดผลและประเมินผล",
+                text: "งานวัดและประเมินผล • โรงเรียนวีรวัฒน์โยธิน",
                 color: "#93C5FD",
                 size: "xxs",
                 margin: "xs"
@@ -493,7 +493,7 @@
                     type: "box",
                     layout: "baseline",
                     contents: [
-                      { type: "text", text: "🏫 ชั้น / ห้อง", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: "🏫 ชั้น/ห้อง", size: "xs", color: "#64748B", flex: 3 },
                       { type: "text", text: `${payloadData.classRoom}  (เลขที่ ${payloadData.studentNo})`, size: "xs", color: "#334155", weight: "bold", flex: 7 }
                     ]
                   },
@@ -501,7 +501,7 @@
                     type: "box",
                     layout: "baseline",
                     contents: [
-                      { type: "text", text: "📘 วิชา", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: "📘 รายวิชา", size: "xs", color: "#64748B", flex: 3 },
                       { type: "text", text: payloadData.subject, size: "xs", color: "#334155", weight: "bold", flex: 7, wrap: true }
                     ]
                   },
