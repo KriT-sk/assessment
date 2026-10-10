@@ -203,7 +203,7 @@
             ],
             backgroundColor: "#003366"
           },
-          body: {
+                    body: {
             type: "box", layout: "vertical",
             contents: [
               {
@@ -218,7 +218,11 @@
                 type: "box", layout: "vertical", margin: "md", spacing: "xs",
                 contents: [
                   { type: "text", text: `ผู้บันทึก: ${teacherName}`, size: "xs", color: "#555555", weight: "bold" },
-                  { type: "text", text: `นักเรียน: ${studentName} (${studentId})`, size: "sm", weight: "bold" },
+                  
+                  // ⭐️ ปรับตรงนี้: แยกชื่อนักเรียน และ รหัสประจำตัว ออกจากกัน
+                  { type: "text", text: `นักเรียน: ${studentName}`, size: "sm", weight: "bold", wrap: true },
+                  { type: "text", text: `รหัสประจำตัว: ${studentId}`, size: "xs", color: "#666666" },
+                  
                   { type: "text", text: `ชั้น/ห้อง: ${classRoom} (เลขที่ ${studentNo})`, size: "sm", color: "#666666" },
                   { type: "text", text: `วิชา: ${subject}`, size: "sm", color: "#666666" },
                   { type: "text", text: `ผลเดิม: ${oldGrade}`, size: "sm", color: "#FF0000", weight: "bold" }
