@@ -3,268 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ระบบบันทึกแก้ไขผลการเรียน</title>
-  <!-- Google Fonts: Prompt & Sarabun -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <!-- Bootstrap 5 & FontAwesome Icons -->
+  <title>บันทึกแก้ผลการเรียน</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <!-- PapaParse ช่วยอ่าน CSV จาก Google Sheets -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-
   <style>
-    :root {
-      --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #0a4bce 100%);
-      --header-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-      --bg-color: #f3f4f6;
-      --card-radius: 20px;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      font-family: 'Sarabun', sans-serif;
-      padding: 12px;
-      color: #333;
-    }
-
-    h1, h2, h3, h4, h5, h6, .btn, .header-title {
-      font-family: 'Prompt', sans-serif;
-    }
-
-    .main-card {
-      background: #ffffff;
-      border-radius: var(--card-radius);
-      border: none;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      animation: fadeIn 0.4s ease-out;
-    }
-
-    /* Header Styling */
-    .app-header {
-      background: var(--header-gradient);
-      padding: 22px 20px;
-      color: white;
-      position: relative;
-    }
-
-    .app-header::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      right: 0;
-      height: 20px;
-      background: white;
-      border-radius: 20px 20px 0 0;
-    }
-
-    .teacher-badge {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 30px;
-      padding: 6px 14px;
-      font-size: 0.82rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Form Controls Modernization */
-    .form-label {
-      font-weight: 500;
-      font-size: 0.85rem;
-      color: #4b5563;
-      margin-bottom: 4px;
-    }
-
-    .form-control, .form-select {
-      border-radius: 12px;
-      border: 1.5px solid #e5e7eb;
-      padding: 10px 14px;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
-      background-color: #f9fafb;
-    }
-
-    .form-control:focus, .form-select:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-      background-color: #ffffff;
-    }
-
-    /* Student Info Profile Card (Interactive) */
-    .student-card {
-      background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
-      border: 1.5px dashed #cbd5e1;
-      border-radius: 16px;
-      padding: 14px;
-      margin-top: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .student-card.active {
-      background: #f0fdf4;
-      border: 1.5px solid #86efac;
-    }
-
-    .status-indicator {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 6px;
-    }
-
-    .status-pulse {
-      animation: pulse 1.5s infinite;
-    }
-
-    /* Gradient Submit Button */
-    .btn-submit {
-      background: var(--primary-gradient);
-      border: none;
-      border-radius: 14px;
-      padding: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      box-shadow: 0 6px 20px rgba(13, 110, 253, 0.28);
-      transition: all 0.2s ease;
-    }
-
-    .btn-submit:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(13, 110, 253, 0.38);
-    }
-
-    .btn-submit:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    .btn-submit:disabled {
-      background: #cbd5e1;
-      box-shadow: none;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(0.95); shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-      70% { transform: scale(1); shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
-      100% { transform: scale(0.95); shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-    }
+    body { background-color: #f4f6f9; padding: 15px; font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .card { border-radius: 12px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .status-text { font-size: 0.8rem; margin-top: 3px; }
   </style>
 </head>
 <body>
 
-  <div class="main-card max-width-mobile mx-auto">
-    <!-- Header UI -->
-    <div class="app-header">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="header-title h6 mb-0 text-white fw-bold"><i class="fa-solid fa-graduation-cap me-2"></i>ระบบแก้ผลการเรียน</span>
-        <span class="badge bg-white text-dark rounded-pill px-2 py-1 align-self-start" style="font-size: 0.7rem;">v3.2</span>
+  <div class="card p-3">
+    <h5 class="text-primary fw-bold mb-3">📝 บันทึกแก้ผลการเรียน (0, ร, มส, มผ)</h5>
+    
+    <form id="gradeForm">
+      <!-- ผู้บันทึก (ดึงจาก LINE) -->
+      <div class="mb-2">
+        <label class="form-label small mb-1">ครูผู้บันทึก</label>
+        <input type="text" id="teacherName" class="form-control form-control-sm" readonly style="background-color: #e9ecef;" placeholder="กำลังดึงข้อมูล LINE...">
       </div>
-      <div class="teacher-badge mt-1">
-        <i class="fa-solid fa-user-check text-warning"></i>
-        <span id="teacherNameDisplay">กำลังโหลดโปรไฟล์ LINE...</span>
+
+      <hr class="my-3">
+
+      <!-- กรอกเลขประจำตัวเพื่อค้นหา -->
+      <div class="mb-2">
+        <label class="form-label small mb-1">เลขประจำตัวนักเรียน</label>
+        <input type="text" id="studentId" class="form-control form-control-sm" required placeholder="เช่น 12345" oninput="searchStudent()">
+        <div id="searchStatus" class="status-text text-muted">กำลังดึงข้อมูลฐานข้อมูลนักเรียน...</div>
       </div>
-    </div>
 
-    <!-- Main Form -->
-    <div class="p-3 pt-4">
-      <form id="gradeForm">
-        <input type="hidden" id="teacherName">
+      <!-- ข้อมูลอัตโนมัติจาก Google Sheets -->
+      <div class="mb-2">
+        <label class="form-label small mb-1">ชื่อ-นามสกุล นักเรียน</label>
+        <input type="text" id="studentName" class="form-control form-control-sm" readonly style="background-color: #e9ecef;" required placeholder="จะแสดงอัตโนมัติเมื่อพบข้อมูล">
+      </div>
 
-        <!-- Input Student ID -->
-        <div class="mb-3">
-          <label class="form-label"><i class="fa-solid fa-id-card me-1 text-primary"></i> เลขประจำตัวนักเรียน</label>
-          <div class="input-group">
-            <input type="text" id="studentId" class="form-control" required placeholder="พิมพ์รหัส 5 หลัก เช่น 12345" oninput="searchStudent()">
-            <span class="input-group-text bg-light border-start-0" style="border-radius: 0 12px 12px 0;">
-              <i class="fa-solid fa-magnifying-glass text-muted"></i>
-            </span>
-          </div>
-          <div id="searchStatus" class="form-text mt-1 text-muted d-flex align-items-center" style="font-size: 0.78rem;">
-            <span class="status-indicator bg-secondary me-1"></span> พิมพ์เลขประจำตัวเพื่อดึงข้อมูลนักเรียน
-          </div>
+      <div class="row g-2 mb-2">
+        <div class="col-8">
+          <label class="form-label small mb-1">ชั้น / ห้อง</label>
+          <input type="text" id="classRoom" class="form-control form-control-sm" readonly style="background-color: #e9ecef;" required placeholder="จะแสดงอัตโนมัติ">
         </div>
-
-        <!-- Student Profile Display Card -->
-        <div id="studentProfileCard" class="student-card mb-3">
-          <div class="d-flex align-items-center gap-2 mb-1">
-            <i class="fa-solid fa-user-graduate text-secondary fs-5" id="studentAvatar"></i>
-            <span class="fw-bold text-dark" id="displayStudentName" style="font-size: 0.95rem;">ข้อมูลนักเรียน</span>
-          </div>
-          <div class="row g-2 mt-1">
-            <div class="col-8">
-              <span class="text-muted small">ชั้น/ห้อง:</span>
-              <span class="fw-semibold text-dark small ms-1" id="displayClassRoom">-</span>
-            </div>
-            <div class="col-4">
-              <span class="text-muted small">เลขที่:</span>
-              <span class="fw-semibold text-dark small ms-1" id="displayStudentNo">-</span>
-            </div>
-          </div>
+        <div class="col-4">
+          <label class="form-label small mb-1">เลขที่</label>
+          <input type="text" id="studentNo" class="form-control form-control-sm" readonly style="background-color: #e9ecef;" placeholder="เลขที่">
         </div>
+      </div>
 
-        <!-- Hidden inputs for form data -->
-        <input type="hidden" id="studentName">
-        <input type="hidden" id="classRoom">
-        <input type="hidden" id="studentNo">
+      <div class="mb-2">
+        <label class="form-label small mb-1">รหัสวิชา / ชื่อวิชา</label>
+        <input type="text" id="subject" class="form-control form-control-sm" required placeholder="เช่น ค32101 คณิตศาสตร์">
+      </div>
 
-        <!-- Subject Input -->
-        <div class="mb-3">
-          <label class="form-label"><i class="fa-solid fa-book-open me-1 text-primary"></i> รหัสวิชา / ชื่อวิชา</label>
-          <input type="text" id="subject" class="form-control" required placeholder="เช่น ค32101 คณิตศาสตร์">
+      <!-- ผลการเรียนเดิม และ เกรดใหม่ -->
+      <div class="row g-2 mb-3">
+        <div class="col-6">
+          <label class="form-label small mb-1">ผลเดิม</label>
+          <select id="oldGrade" class="form-select form-select-sm">
+            <option value="0">0</option>
+            <option value="ร">ร</option>
+            <option value="มส">มส</option>
+            <option value="มผ">มผ</option>
+          </select>
         </div>
-
-        <!-- Grades Selection -->
-        <div class="row g-2 mb-4">
-          <div class="col-6">
-            <label class="form-label"><i class="fa-solid fa-circle-exclamation me-1 text-danger"></i> ผลเดิม</label>
-            <select id="oldGrade" class="form-select fw-semibold text-danger">
-              <option value="0">0</option>
-              <option value="ร">ร</option>
-              <option value="มส">มส</option>
-              <option value="มผ">มผ</option>
-            </select>
-          </div>
-          <div class="col-6">
-            <label class="form-label"><i class="fa-solid fa-circle-check me-1 text-success"></i> เกรดใหม่</label>
-            <select id="newGrade" class="form-select fw-semibold text-success">
-              <option value="1.0">1.0</option>
-              <option value="1.5">1.5</option>
-              <option value="2.0">2.0</option>
-              <option value="2.5">2.5</option>
-              <option value="3.0">3.0</option>
-              <option value="3.5">3.5</option>
-              <option value="4.0">4.0</option>
-              <option value="ผ่าน">ผ่าน</option>
-            </select>
-          </div>
+        <div class="col-6">
+          <label class="form-label small mb-1">เกรดใหม่</label>
+          <select id="newGrade" class="form-select form-select-sm">
+            <option value="1.0">1.0</option>
+            <option value="1.5">1.5</option>
+            <option value="2.0">2.0</option>
+            <option value="2.5">2.5</option>
+            <option value="3.0">3.0</option>
+            <option value="3.5">3.5</option>
+            <option value="4.0">4.0</option>
+            <option value="ผ่าน">ผ่าน</option>
+          </select>
         </div>
+      </div>
 
-        <!-- Submit Button -->
-        <button type="submit" id="btnSubmit" class="btn btn-primary btn-submit w-100 text-white" disabled>
-          <i class="fa-solid fa-paper-plane me-2"></i> บันทึกข้อมูลเข้าแชต
-        </button>
-      </form>
-    </div>
+      <button type="submit" id="btnSubmit" class="btn btn-primary w-100 btn-sm fw-bold" disabled>ส่งข้อมูลเข้าแชต</button>
+    </form>
   </div>
 
   <script>
     const MY_LIFF_ID = "2011794951-TNDIpEnL"; 
+    
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0KsupOSe4UCwvu2QEHrVwtGFnDlI1FwFTwQ0FWZb-zkaaZFWn3ZSqUSVkQQVFiXZmkpeLKifaflZs/pub?gid=0&single=true&output=csv";
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbycSuN4Z4mgxrKdcwQv5jdtDf_tZCvKHeUAZatNCNFiS4tfLz9Ogu-_1bT6gyqj_54jcQ/exec";
 
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbycSuN4Z4mgxrKdcwQv5jdtDf_tZCvKHeUAZatNCNFiS4tfLz9Ogu-_1bT6gyqj_54jcQ/exec";
+    
     let studentDatabase = [];
 
     async function main() {
@@ -275,7 +104,6 @@
         } else {
           const profile = await liff.getProfile();
           document.getElementById('teacherName').value = profile.displayName;
-          document.getElementById('teacherNameDisplay').innerText = profile.displayName;
         }
         loadStudentData();
       } catch (err) {
@@ -284,6 +112,7 @@
     }
     main();
 
+    // ดึงข้อมูลรายชื่อนักเรียนจาก CSV
     function loadStudentData() {
       Papa.parse(SHEET_CSV_URL, {
         download: true,
@@ -291,33 +120,29 @@
         skipEmptyLines: true,
         complete: function(results) {
           studentDatabase = results.data;
-          document.getElementById('searchStatus').innerHTML = '<span class="status-indicator bg-success status-pulse"></span> พร้อมค้นหารายชื่อนักเรียน';
+          document.getElementById('searchStatus').innerText = "พร้อมค้นหารายชื่อนักเรียน";
         },
         error: function(err) {
-          document.getElementById('searchStatus').innerHTML = '<span class="status-indicator bg-danger"></span> ❌ โหลดข้อมูลนักเรียนไม่สำเร็จ';
+          document.getElementById('searchStatus').innerText = "❌ ไม่สามารถดึงข้อมูลรายชื่อนักเรียนได้";
         }
       });
     }
 
+    // ค้นหานักเรียนเมื่อพิมพ์รหัสประจำตัว
     function searchStudent() {
       const inputId = document.getElementById('studentId').value.trim();
       const statusText = document.getElementById('searchStatus');
-      const card = document.getElementById('studentProfileCard');
-      const avatar = document.getElementById('studentAvatar');
-      
-      const displayName = document.getElementById('displayStudentName');
-      const displayClass = document.getElementById('displayClassRoom');
-      const displayNo = document.getElementById('displayStudentNo');
-
+      const nameInput = document.getElementById('studentName');
+      const classInput = document.getElementById('classRoom');
+      const noInput = document.getElementById('studentNo');
       const submitBtn = document.getElementById('btnSubmit');
 
       if (inputId === "") {
-        statusText.innerHTML = '<span class="status-indicator bg-secondary"></span> พิมพ์เลขประจำตัวเพื่อดึงข้อมูลนักเรียน';
-        card.classList.remove('active');
-        avatar.className = "fa-solid fa-user-graduate text-secondary fs-5";
-        displayName.innerText = "ข้อมูลนักเรียน";
-        displayClass.innerText = "-";
-        displayNo.innerText = "-";
+        statusText.innerText = "พิมพ์เลขประจำตัวเพื่อดึงข้อมูลอัตโนมัติ";
+        statusText.className = "status-text text-muted";
+        nameInput.value = "";
+        classInput.value = "";
+        noInput.value = "";
         submitBtn.disabled = true;
         return;
       }
@@ -325,44 +150,30 @@
       const found = studentDatabase.find(std => String(std.studentID || std.studentId).trim() === inputId);
 
       if (found) {
-        const studentName = found.name || "";
+        nameInput.value = found.name || "";
         const roomStr = found.room ? `/${found.room}` : '';
-        const classRoom = `${found.class || ''}${roomStr}`;
-        const studentNo = found.no || "";
+        classInput.value = `${found.class || ''}${roomStr}`;
+        noInput.value = found.no || "";
 
-        document.getElementById('studentName').value = studentName;
-        document.getElementById('classRoom').value = classRoom;
-        document.getElementById('studentNo').value = studentNo;
-
-        displayName.innerText = studentName;
-        displayClass.innerText = classRoom;
-        displayNo.innerText = studentNo;
-        
-        card.classList.add('active');
-        avatar.className = "fa-solid fa-user-check text-success fs-5";
-        statusText.innerHTML = '<span class="status-indicator bg-success status-pulse"></span> ✅ พบข้อมูลนักเรียนในระบบ';
+        statusText.innerText = "✅ พบข้อมูลนักเรียน";
+        statusText.className = "status-text text-success fw-bold";
         submitBtn.disabled = false;
       } else {
-        document.getElementById('studentName').value = "";
-        document.getElementById('classRoom').value = "";
-        document.getElementById('studentNo').value = "";
-
-        displayName.innerText = "ไม่พบข้อมูลนักเรียน";
-        displayClass.innerText = "-";
-        displayNo.innerText = "-";
-
-        card.classList.remove('active');
-        avatar.className = "fa-solid fa-user-xmark text-danger fs-5";
-        statusText.innerHTML = '<span class="status-indicator bg-danger"></span> ❌ ไม่พบเลขประจำตัวนี้ในระบบ';
+        nameInput.value = "";
+        classInput.value = "";
+        noInput.value = "";
+        statusText.innerText = "❌ ไม่พบข้อมูลนักเรียนเลขนี้ในระบบ";
+        statusText.className = "status-text text-danger";
         submitBtn.disabled = true;
       }
     }
 
+    // ส่งข้อมูลเข้าทั้ง Google Sheets และ LINE Flex Message
     document.getElementById('gradeForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = document.getElementById('btnSubmit');
       btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> กำลังบันทึกข้อมูล...';
+      btn.innerText = "กำลังบันทึกข้อมูล...";
 
       const refNo = "REF-" + Math.floor(100000 + Math.random() * 900000);
       const now = new Date();
@@ -381,195 +192,56 @@
         timestamp: timeString
       };
 
-      // โครงสร้าง Flex Message มาตรฐาน (คลีนจุดเสี่ยง Invalid Message แล้ว)
       const flexPayload = {
         type: "flex",
-        altText: `📝 บันทึกแก้ผลการเรียน: ${payloadData.studentName}`,
+        altText: `บันทึกแก้ผลการเรียน: ${payloadData.studentName}`,
         contents: {
           type: "bubble",
           header: {
-            type: "box",
-            layout: "vertical",
-            backgroundColor: "#1e3c72",
-            paddingAll: "lg",
+            type: "box", layout: "vertical",
             contents: [
-              {
-                type: "box",
-                layout: "horizontal",
-                contents: [
-                  {
-                    type: "text",
-                    text: "🎓 ระบบวัดและประเมินผล",
-                    color: "#ffffff",
-                    size: "xs",
-                    weight: "bold",
-                    flex: 1
-                  },
-                  {
-                    type: "text",
-                    text: "COMPLETED",
-                    color: "#38ef7d",
-                    size: "xxs",
-                    weight: "bold",
-                    align: "end"
-                  }
-                ]
-              },
-              {
-                type: "text",
-                text: "ใบยืนยันการแก้ผลการเรียน",
-                color: "#ffffff",
-                size: "lg",
-                weight: "bold",
-                margin: "sm"
-              },
-              {
-                type: "text",
-                text: `อ้างอิง: ${refNo}`,
-                color: "#b0c4de",
-                size: "xxs",
-                margin: "xs"
-              }
-            ]
+              { type: "text", text: "ใบยืนยันการแก้ผลการเรียน", weight: "bold", color: "#FFFFFF", size: "md" },
+              { type: "text", text: "ฝ่ายวัดผลและประเมินผลการเรียน", color: "#E0E0E0", size: "xs" }
+            ],
+            backgroundColor: "#003366"
           },
           body: {
-            type: "box",
-            layout: "vertical",
-            paddingAll: "lg",
-            spacing: "md",
+            type: "box", layout: "vertical",
             contents: [
               {
-                type: "box",
-                layout: "vertical",
-                backgroundColor: "#f8fafc",
-                cornerRadius: "md",
-                paddingAll: "md",
-                spacing: "sm",
+                type: "box", layout: "horizontal",
                 contents: [
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "sm",
-                    contents: [
-                      { type: "text", text: "👤", size: "xs", flex: 0 },
-                      { type: "text", text: "ชื่อ-สกุล", size: "xs", color: "#64748b", flex: 0 },
-                      { type: "text", text: payloadData.studentName, size: "sm", color: "#0f172a", weight: "bold", flex: 1, wrap: true }
-                    ]
-                  },
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "sm",
-                    contents: [
-                      { type: "text", text: "🆔", size: "xs", flex: 0 },
-                      { type: "text", text: "รหัสประจำตัว", size: "xs", color: "#64748b", flex: 0 },
-                      { type: "text", text: payloadData.studentId, size: "sm", color: "#0d6efd", weight: "bold", flex: 1 }
-                    ]
-                  },
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "sm",
-                    contents: [
-                      { type: "text", text: "🏫", size: "xs", flex: 0 },
-                      { type: "text", text: "ชั้น / ห้อง", size: "xs", color: "#64748b", flex: 0 },
-                      { type: "text", text: `${payloadData.classRoom} (เลขที่ ${payloadData.studentNo})`, size: "xs", color: "#334155", weight: "bold", flex: 1 }
-                    ]
-                  },
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "sm",
-                    contents: [
-                      { type: "text", text: "📘", size: "xs", flex: 0 },
-                      { type: "text", text: "รายวิชา", size: "xs", color: "#64748b", flex: 0 },
-                      { type: "text", text: payloadData.subject, size: "xs", color: "#334155", weight: "bold", flex: 1, wrap: true }
-                    ]
-                  }
+                  { type: "text", text: "เลขที่อ้างอิง:", size: "xs", color: "#AAAAAA" },
+                  { type: "text", text: refNo, size: "xs", color: "#000000", weight: "bold", align: "end" }
+                ]
+              },
+              { type: "separator", margin: "md" },
+              {
+                type: "box", layout: "vertical", margin: "md", spacing: "xs",
+                contents: [
+                  { type: "text", text: `ผู้บันทึก: ${payloadData.teacherName}`, size: "xs", color: "#555555", weight: "bold" },
+                  { type: "text", text: `นักเรียน: ${payloadData.studentName}`, size: "sm", weight: "bold", wrap: true },
+                  { type: "text", text: `รหัสประจำตัว: ${payloadData.studentId}`, size: "xs", color: "#666666" },
+                  { type: "text", text: `ชั้น/ห้อง: ${payloadData.classRoom} (เลขที่ ${payloadData.studentNo})`, size: "sm", color: "#666666" },
+                  { type: "text", text: `วิชา: ${payloadData.subject}`, size: "sm", color: "#666666" },
+                  { type: "text", text: `ผลเดิม: ${payloadData.oldGrade}`, size: "sm", color: "#FF0000", weight: "bold" }
                 ]
               },
               {
-                type: "box",
-                layout: "horizontal",
-                backgroundColor: "#f1f5f9",
-                cornerRadius: "lg",
-                paddingAll: "md",
+                type: "box", layout: "vertical", margin: "md", backgroundColor: "#E8F5E9", paddingAll: "sm", cornerRadius: "md",
                 contents: [
-                  {
-                    type: "box",
-                    layout: "vertical",
-                    flex: 1,
-                    contents: [
-                      { type: "text", text: "ผลการเรียนเดิม", size: "xxs", color: "#ef4444", weight: "bold", align: "center" },
-                      { type: "text", text: payloadData.oldGrade, size: "xl", color: "#dc2626", weight: "bold", margin: "xs", align: "center" }
-                    ]
-                  },
-                  {
-                    type: "text",
-                    text: "➔",
-                    size: "md",
-                    color: "#94a3b8",
-                    align: "center",
-                    flex: 0
-                  },
-                  {
-                    type: "box",
-                    layout: "vertical",
-                    flex: 1,
-                    contents: [
-                      { type: "text", text: "เกรดใหม่ที่ได้", size: "xxs", color: "#16a34a", weight: "bold", align: "center" },
-                      { type: "text", text: payloadData.newGrade, size: "xl", color: "#15803d", weight: "bold", margin: "xs", align: "center" }
-                    ]
-                  }
+                  { type: "text", text: "สถานะ: ติดตามและแก้ไขแล้ว", size: "xs", color: "#2E7D32" },
+                  { type: "text", text: `เกรดใหม่: ${payloadData.newGrade}`, size: "md", color: "#1B5E20", weight: "bold" }
                 ]
               },
-              {
-                type: "box",
-                layout: "vertical",
-                margin: "xs",
-                spacing: "xxs",
-                contents: [
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "xs",
-                    contents: [
-                      { type: "text", text: "✍️ ผู้บันทึก:", size: "xxs", color: "#94a3b8", flex: 0 },
-                      { type: "text", text: payloadData.teacherName, size: "xxs", color: "#64748b", weight: "bold", flex: 1 }
-                    ]
-                  },
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "xs",
-                    contents: [
-                      { type: "text", text: "🕒 วันเวลา:", size: "xxs", color: "#94a3b8", flex: 0 },
-                      { type: "text", text: timeString, size: "xxs", color: "#94a3b8", flex: 1 }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          footer: {
-            type: "box",
-            layout: "vertical",
-            backgroundColor: "#f8fafc",
-            paddingAll: "sm",
-            contents: [
-              {
-                type: "text",
-                text: "บันทึกเรียบร้อยผ่านระบบงานวัดผลดิจิทัล",
-                size: "xxs",
-                color: "#94a3b8",
-                align: "center"
-              }
+              { type: "text", text: `เวลาบันทึก: ${timeString}`, size: "xxs", color: "#AAAAAA", margin: "md" }
             ]
           }
         }
       };
 
       try {
+        // 1. บันทึกลง Google Sheets
         await fetch(GAS_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -577,6 +249,7 @@
           body: JSON.stringify(payloadData)
         });
 
+        // 2. ส่ง Flex Message เข้าแชต LINE
         await liff.sendMessages([flexPayload]);
         
         alert("บันทึกข้อมูลสำเร็จแล้ว!");
@@ -584,7 +257,7 @@
       } catch (err) {
         alert("เกิดข้อผิดพลาดในการส่งข้อมูล: " + err.message);
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i> บันทึกข้อมูลเข้าแชต';
+        btn.innerText = "ส่งข้อมูลเข้าแชต";
       }
     });
   </script>
