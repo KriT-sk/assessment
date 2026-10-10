@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบบันทึกเวลาเรียนและติดตามสิทธิ์ มส</title>
+  <!-- Google Fonts: Prompt & Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 & FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #0a4bce 100%);
+      --header-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      --bg-color: #f3f4f6;
+      --card-radius: 20px;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Sarabun', sans-serif;
+      padding: 12px;
+      color: #333;
+    }
+
+    h1, h2, h3, h4, h5, h6, .btn, .header-title {
+      font-family: 'Prompt', sans-serif;
+    }
+
+    .main-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .app-header {
+      background: var(--header-gradient);
+      padding: 22px 20px;
+      color: white;
+      position: relative;
+    }
+
+    .app-header::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: white;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .teacher-badge {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 30px;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+
+    .form-control, .form-select {
+      border-radius: 12px;
+      border: 1.5px solid #e5e7eb;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      background-color: #f9fafb;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+      background-color: #ffffff;
+    }
+
+    .student-card {
+      background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .student-card.active {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .status-pulse {
+      animation: pulse 1.5s infinite;
+    }
+
+    .calc-card {
+      background: #f8fafc;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+    }
+
+    .btn-submit {
+      background: var(--primary-gradient);
+      border: none;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(13, 110, 253, 0.28);
+      transition: all 0.2s ease;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(13, 110, 253, 0.38);
+    }
+
+    .btn-submit:disabled {
+      background: #cbd5e1;
+      box-shadow: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-card max-width-mobile mx-auto">
+    <!-- Header -->
+    <div class="app-header">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="header-title h6 mb-0 text-white fw-bold"><i class="fa-solid fa-clock-rotate-left me-2"></i>ระบบบันทึกเวลาเรียนและสิทธิ์ มส</span>
+        <span class="badge bg-white text-dark rounded-pill px-2 py-1 align-self-start" style="font-size: 0.7rem;">วีรวัฒน์โยธิน</span>
+      </div>
+      <div class="teacher-badge mt-1">
+        <i class="fa-solid fa-user-check text-warning"></i>
+        <span id="teacherNameDisplay">กำลังโหลดโปรไฟล์ LINE...</span>
+      </div>
+    </div>
+
+    <!-- Main Form -->
+    <div class="p-3 pt-4">
+      <form id="gradeForm">
+        <input type="hidden" id="teacherName">
+
+        <!-- Input Student ID -->
+        <div class="mb-3">
+          <label class="form-label"><i class="fa-solid fa-id-card me-1 text-primary"></i> เลขประจำตัวนักเรียน</label>
+          <div class="input-group">
+            <input type="text" id="studentId" class="form-control" required placeholder="พิมพ์รหัสประจำตัว เช่น 12345" oninput="searchStudent()">
+            <span class="input-group-text bg-light border-start-0" style="border-radius: 0 12px 12px 0;">
+              <i class="fa-solid fa-magnifying-glass text-muted"></i>
+            </span>
+          </div>
+          <div id="searchStatus" class="form-text mt-1 text-muted d-flex align-items-center" style="font-size: 0.78rem;">
+            <span class="status-indicator bg-secondary me-1"></span> พิมพ์เลขประจำตัวเพื่อดึงข้อมูลนักเรียน
+          </div>
+        </div>
+
+        <!-- Student Profile Display Card -->
+        <div id="studentProfileCard" class="student-card mb-3">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="fa-solid fa-user-graduate text-secondary fs-5" id="studentAvatar"></i>
+            <span class="fw-bold text-dark" id="displayStudentName" style="font-size: 0.95rem;">ข้อมูลนักเรียน</span>
+          </div>
+          <div class="row g-2 mt-1">
+            <div class="col-8">
+              <span class="text-muted small">ชั้น/ห้อง:</span>
+              <span class="fw-semibold text-dark small ms-1" id="displayClassRoom">-</span>
+            </div>
+            <div class="col-4">
+              <span class="text-muted small">เลขที่:</span>
+              <span class="fw-semibold text-dark small ms-1" id="displayStudentNo">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden inputs -->
+        <input type="hidden" id="studentName">
+        <input type="hidden" id="classRoom">
+        <input type="hidden" id="studentNo">
+
+        <!-- Subject Input -->
+        <div class="mb-3">
+          <label class="form-label"><i class="fa-solid fa-book-open me-1 text-primary"></i> รหัสวิชา / ชื่อวิชา</label>
+          <input type="text" id="subject" class="form-control" required placeholder="เช่น ค32101 คณิตศาสตร์">
+        </div>
+
+        <!-- Credit & Absence Limit Calculation -->
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <label class="form-label"><i class="fa-solid fa-layer-group me-1 text-primary"></i> หน่วยกิตวิชา</label>
+            <select id="creditSelect" class="form-select fw-semibold" onchange="calculateAbsence()">
+              <option value="0.5">0.5 นก. (20 ชม.)</option>
+              <option value="1.0" selected>1.0 นก. (40 ชม.)</option>
+              <option value="1.5">1.5 นก. (60 ชม.)</option>
+              <option value="2.0">2.0 นก. (80 ชม.)</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="form-label"><i class="fa-solid fa-user-clock me-1 text-danger"></i> ชั่วโมงขาดเรียน</label>
+            <input type="number" id="absentHours" class="form-control fw-bold text-danger" min="1" max="100" value="9" required oninput="calculateAbsence()">
+          </div>
+        </div>
+
+        <!-- Status Card (Dynamic Auto-Calculate) -->
+        <div class="calc-card mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="small text-muted fw-bold">เกณฑ์การขาดเรียนวิชานี้:</span>
+            <span class="badge bg-secondary" id="limitBadge">ขาดได้ไม่เกิน 8 ชม.</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="small text-muted fw-bold">ประเมินสถานะเวลาเรียน:</span>
+            <span class="fw-bold fs-6" id="statusResultText">หมดสิทธิ์สอบ (ติด มส)</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="btnSubmit" class="btn btn-primary btn-submit w-100 text-white" disabled>
+          <i class="fa-solid fa-paper-plane me-2"></i> บันทึกข้อมูลเข้าแชต
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const MY_LIFF_ID = "2011794951-TNDIpEnL"; 
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0KsupOSe4UCwvu2QEHrVwtGFnDlI1FwFTwQ0FWZb-zkaaZFWn3ZSqUSVkQQVFiXZmkpeLKifaflZs/pub?gid=0&single=true&output=csv";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbycSuN4Z4mgxrKdcwQv5jdtDf_tZCvKHeUAZatNCNFiS4tfLz9Ogu-_1bT6gyqj_54jcQ/exec";
+
+    let studentDatabase = [];
+    let maxAllowedHours = 8;
+    let evaluatedStatus = "หมดสิทธิ์สอบ (ติด มส)";
+
+    async function main() {
+      try {
+        await liff.init({ liffId: MY_LIFF_ID });
+        if (!liff.isLoggedIn()) {
+          liff.login();
+        } else {
+          const profile = await liff.getProfile();
+          document.getElementById('teacherName').value = profile.displayName;
+          document.getElementById('teacherNameDisplay').innerText = profile.displayName;
+        }
+        loadStudentData();
+        calculateAbsence();
+      } catch (err) {
+        console.error("LIFF Init Error:", err);
+      }
+    }
+    main();
+
+    function loadStudentData() {
+      Papa.parse(SHEET_CSV_URL, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          studentDatabase = results.data;
+          document.getElementById('searchStatus').innerHTML = '<span class="status-indicator bg-success status-pulse"></span> พร้อมค้นหารายชื่อนักเรียน';
+        },
+        error: function(err) {
+          document.getElementById('searchStatus').innerHTML = '<span class="status-indicator bg-danger"></span> ❌ โหลดข้อมูลนักเรียนไม่สำเร็จ';
+        }
+      });
+    }
+
+    function calculateAbsence() {
+      const credit = parseFloat(document.getElementById('creditSelect').value);
+      const absent = parseInt(document.getElementById('absentHours').value) || 0;
+      
+      const totalHours = credit * 40; // 1 หน่วยกิต = 40 ชั่วโมง/ภาคเรียน
+      maxAllowedHours = Math.floor(totalHours * 0.20); // ขาดได้ไม่เกิน 20%
+      
+      const limitBadge = document.getElementById('limitBadge');
+      const statusText = document.getElementById('statusResultText');
+
+      limitBadge.innerText = `ขาดได้ไม่เกิน ${maxAllowedHours} ชม.`;
+
+      if (absent > maxAllowedHours) {
+        evaluatedStatus = "หมดสิทธิ์สอบ (ติด มส)";
+        statusText.innerText = evaluatedStatus;
+        statusText.className = "fw-bold fs-6 text-danger";
+      } else if (absent === maxAllowedHours) {
+        evaluatedStatus = "สุ่มเสี่ยงติด มส (ขาดครบโควตา)";
+        statusText.innerText = evaluatedStatus;
+        statusText.className = "fw-bold fs-6 text-warning";
+      } else {
+        evaluatedStatus = "เวลาเรียนครบตามเกณฑ์";
+        statusText.innerText = evaluatedStatus;
+        statusText.className = "fw-bold fs-6 text-success";
+      }
+    }
+
+    function searchStudent() {
+      const inputId = document.getElementById('studentId').value.trim();
+      const statusText = document.getElementById('searchStatus');
+      const card = document.getElementById('studentProfileCard');
+      const avatar = document.getElementById('studentAvatar');
+      
+      const displayName = document.getElementById('displayStudentName');
+      const displayClass = document.getElementById('displayClassRoom');
+      const displayNo = document.getElementById('displayStudentNo');
+
+      const submitBtn = document.getElementById('btnSubmit');
+
+      if (inputId === "") {
+        statusText.innerHTML = '<span class="status-indicator bg-secondary"></span> พิมพ์เลขประจำตัวเพื่อดึงข้อมูลนักเรียน';
+        card.classList.remove('active');
+        avatar.className = "fa-solid fa-user-graduate text-secondary fs-5";
+        displayName.innerText = "ข้อมูลนักเรียน";
+        displayClass.innerText = "-";
+        displayNo.innerText = "-";
+        submitBtn.disabled = true;
+        return;
+      }
+
+      const found = studentDatabase.find(std => String(std.studentID || std.studentId).trim() === inputId);
+
+      if (found) {
+        const studentName = found.name || "";
+        const roomStr = found.room ? `/${found.room}` : '';
+        const classRoom = `${found.class || ''}${roomStr}`;
+        const studentNo = found.no || "";
+
+        document.getElementById('studentName').value = studentName;
+        document.getElementById('classRoom').value = classRoom;
+        document.getElementById('studentNo').value = studentNo;
+
+        displayName.innerText = studentName;
+        displayClass.innerText = classRoom;
+        displayNo.innerText = studentNo;
+        
+        card.classList.add('active');
+        avatar.className = "fa-solid fa-user-check text-success fs-5";
+        statusText.innerHTML = '<span class="status-indicator bg-success status-pulse"></span> ✅ พบข้อมูลนักเรียนในระบบ';
+        submitBtn.disabled = false;
+      } else {
+        document.getElementById('studentName').value = "";
+        document.getElementById('classRoom').value = "";
+        document.getElementById('studentNo').value = "";
+
+        displayName.innerText = "ไม่พบข้อมูลนักเรียน";
+        displayClass.innerText = "-";
+        displayNo.innerText = "-";
+
+        card.classList.remove('active');
+        avatar.className = "fa-solid fa-user-xmark text-danger fs-5";
+        statusText.innerHTML = '<span class="status-indicator bg-danger"></span> ❌ ไม่พบเลขประจำตัวนี้ในระบบ';
+        submitBtn.disabled = true;
+      }
+    }
+
+    document.getElementById('gradeForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> กำลังบันทึกข้อมูล...';
+
+      const refNo = "ABS-" + Math.floor(100000 + Math.random() * 900000);
+      const now = new Date();
+      const timeString = now.toLocaleDateString('th-TH') + ' | ' + now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+
+      const creditVal = document.getElementById('creditSelect').value;
+      const absentVal = document.getElementById('absentHours').value;
+
+      const payloadData = {
+        refNo: refNo,
+        teacherName: document.getElementById('teacherName').value,
+        studentId: document.getElementById('studentId').value,
+        studentName: document.getElementById('studentName').value,
+        classRoom: document.getElementById('classRoom').value,
+        studentNo: document.getElementById('studentNo').value,
+        subject: document.getElementById('subject').value,
+        oldGrade: `ขาด ${absentVal} ชม. (${creditVal} นก.)`,
+        newGrade: evaluatedStatus,
+        timestamp: timeString
+      };
+
+      const flexPayload = {
+        type: "flex",
+        altText: `แจ้งเตือนสิทธิ์ มส: ${payloadData.studentName}`,
+        contents: {
+          type: "bubble",
+          size: "mega",
+          header: {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              {
+                type: "text",
+                text: "⚠️ ใบแจ้งเตือนเวลาเรียน / สิทธิ์ มส",
+                weight: "bold",
+                color: "#FFFFFF",
+                size: "md"
+              },
+              {
+                type: "text",
+                text: "งานวัดและประเมินผล • โรงเรียนวีรวัฒน์โยธิน",
+                color: "#93C5FD",
+                size: "xxs",
+                margin: "xs"
+              }
+            ],
+            backgroundColor: "#B91C1C",
+            paddingAll: "lg"
+          },
+          body: {
+            type: "box",
+            layout: "vertical",
+            paddingAll: "lg",
+            contents: [
+              // รหัสประจำตัว
+              {
+                type: "box",
+                layout: "horizontal",
+                contents: [
+                  {
+                    type: "box",
+                    layout: "vertical",
+                    contents: [
+                      {
+                        type: "text",
+                        text: "รหัสประจำตัวนักเรียน",
+                        size: "xxs",
+                        color: "#DC2626",
+                        weight: "bold"
+                      },
+                      {
+                        type: "text",
+                        text: payloadData.studentId,
+                        size: "xl",
+                        weight: "bold",
+                        color: "#991B1B",
+                        margin: "xs"
+                      }
+                    ]
+                  },
+                  {
+                    type: "box",
+                    layout: "vertical",
+                    contents: [
+                      {
+                        type: "text",
+                        text: "เลขที่อ้างอิง",
+                        size: "xxs",
+                        color: "#64748B",
+                        align: "end"
+                      },
+                      {
+                        type: "text",
+                        text: refNo,
+                        size: "xxs",
+                        color: "#475569",
+                        align: "end",
+                        weight: "bold",
+                        margin: "xs"
+                      }
+                    ],
+                    justifyContent: "center"
+                  }
+                ],
+                backgroundColor: "#FEF2F2",
+                paddingAll: "md",
+                cornerRadius: "lg",
+                borderColor: "#FCA5A5",
+                borderWidth: "1px"
+              },
+
+              // ข้อมูลรายละเอียด
+              {
+                type: "box",
+                layout: "vertical",
+                margin: "lg",
+                spacing: "sm",
+                contents: [
+                  {
+                    type: "box",
+                    layout: "baseline",
+                    contents: [
+                      { type: "text", text: "👤 นักเรียน", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: payloadData.studentName, size: "sm", color: "#0F172A", weight: "bold", flex: 7, wrap: true }
+                    ]
+                  },
+                  {
+                    type: "box",
+                    layout: "baseline",
+                    contents: [
+                      { type: "text", text: "🏫 ชั้น/ห้อง", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: `${payloadData.classRoom}  (เลขที่ ${payloadData.studentNo})`, size: "xs", color: "#334155", weight: "bold", flex: 7 }
+                    ]
+                  },
+                  {
+                    type: "box",
+                    layout: "baseline",
+                    contents: [
+                      { type: "text", text: "📘 รายวิชา", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: `${payloadData.subject} (${creditVal} หน่วยกิต)`, size: "xs", color: "#334155", weight: "bold", flex: 7, wrap: true }
+                    ]
+                  },
+                  {
+                    type: "box",
+                    layout: "baseline",
+                    contents: [
+                      { type: "text", text: "⏱️ ขาดเรียน", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: `${absentVal} ชม. (เกณฑ์ห้ามเกิน ${maxAllowedHours} ชม.)`, size: "xs", color: "#DC2626", weight: "bold", flex: 7 }
+                    ]
+                  },
+                  {
+                    type: "box",
+                    layout: "baseline",
+                    contents: [
+                      { type: "text", text: "✍️ ผู้รายงาน", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: payloadData.teacherName, size: "xs", color: "#475569", flex: 7 }
+                    ]
+                  }
+                ]
+              },
+
+              { type: "separator", margin: "lg" },
+
+              // ผลการประเมิน
+              {
+                type: "box",
+                layout: "vertical",
+                margin: "lg",
+                contents: [
+                  { type: "text", text: "ผลประเมินสิทธิ์การเรียน", size: "xxs", color: "#991B1B", align: "center", weight: "bold" },
+                  { type: "text", text: evaluatedStatus, size: "md", weight: "bold", color: evaluatedStatus.includes("มส") ? "#DC2626" : "#16A34A", align: "center", margin: "xs" }
+                ],
+                backgroundColor: evaluatedStatus.includes("มส") ? "#FEF2F2" : "#F0FDF4",
+                paddingAll: "md",
+                cornerRadius: "lg",
+                borderColor: evaluatedStatus.includes("มส") ? "#FCA5A5" : "#86EFAC",
+                borderWidth: "1px"
+              },
+
+              // เวลาบันทึกด้านล่าง
+              {
+                type: "text",
+                text: `🕒 วันเวลาที่บันทึก: ${timeString}`,
+                size: "xxs",
+                color: "#94A3B8",
+                align: "center",
+                margin: "lg"
+              }
+            ]
+          }
+        }
+      };
+
+      try {
+        await fetch(GAS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payloadData)
+        });
+
+        await liff.sendMessages([flexPayload]);
+        
+        alert("บันทึกข้อมูลเวลาเรียนสำเร็จแล้ว!");
+        liff.closeWindow();
+      } catch (err) {
+        alert("เกิดข้อผิดพลาดในการส่งข้อมูล: " + err.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i> บันทึกข้อมูลเข้าแชต';
+      }
+    });
+  </script>
+</body>
+</html>
