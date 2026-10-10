@@ -384,7 +384,7 @@
         timestamp: timeString
       };
 
-         const flexPayload = {
+      const flexPayload = {
         type: "flex",
         altText: `บันทึกแก้ผลการเรียน: ${payloadData.studentName}`,
         contents: {
@@ -395,43 +395,29 @@
             layout: "vertical",
             contents: [
               {
-                type: "box",
-                layout: "horizontal",
-                contents: [
-                  {
-                    type: "text",
-                    text: "ใบยืนยันการแก้ผลการเรียน",
-                    weight: "bold",
-                    color: "#FFFFFF",
-                    size: "sm",
-                    flex: 1
-                  },
-                  {
-                    type: "text",
-                    text: "SUCCESS",
-                    weight: "bold",
-                    color: "#4ADE80",
-                    size: "xs",
-                    align: "end"
-                  }
-                ]
+                type: "text",
+                text: "🎓 ใบยืนยันการแก้ผลการเรียน",
+                weight: "bold",
+                color: "#FFFFFF",
+                size: "md"
               },
               {
                 type: "text",
-                text: "ฝ่ายวัดผลและประเมินผลการเรียน",
+                text: "กลุ่มบริหารวิชาการ • ฝ่ายวัดผลและประเมินผล",
                 color: "#93C5FD",
                 size: "xxs",
                 margin: "xs"
               }
             ],
-            backgroundColor: "#1E3C72",
+            backgroundColor: "#0F172A",
             paddingAll: "lg"
           },
           body: {
             type: "box",
             layout: "vertical",
+            paddingAll: "lg",
             contents: [
-              // 1. ส่วนแสดงรหัสประจำตัวเด่นชัด (High-Contrast ID Badge)
+              // 1. กล่องรหัสประจำตัวเด่นชัด (High-Contrast Hero Student ID Card)
               {
                 type: "box",
                 layout: "horizontal",
@@ -444,15 +430,15 @@
                         type: "text",
                         text: "รหัสประจำตัวนักเรียน",
                         size: "xxs",
-                        color: "#64748B",
+                        color: "#3B82F6",
                         weight: "bold"
                       },
                       {
                         type: "text",
                         text: payloadData.studentId,
-                        size: "lg",
+                        size: "xl",
                         weight: "bold",
-                        color: "#0F172A",
+                        color: "#1E3A8A",
                         margin: "xs"
                       }
                     ]
@@ -463,16 +449,16 @@
                     contents: [
                       {
                         type: "text",
-                        text: "อ้างอิง",
+                        text: "เลขที่อ้างอิง",
                         size: "xxs",
-                        color: "#94A3B8",
+                        color: "#64748B",
                         align: "end"
                       },
                       {
                         type: "text",
                         text: refNo,
                         size: "xxs",
-                        color: "#64748B",
+                        color: "#475569",
                         align: "end",
                         weight: "bold",
                         margin: "xs"
@@ -481,16 +467,14 @@
                     justifyContent: "center"
                   }
                 ],
-                backgroundColor: "#F8FAFC",
+                backgroundColor: "#EFF6FF",
                 paddingAll: "md",
-                cornerRadius: "md",
-                borderColor: "#E2E8F0",
+                cornerRadius: "lg",
+                borderColor: "#BFDBFE",
                 borderWidth: "1px"
               },
-              
-              { type: "separator", margin: "lg" },
 
-              // 2. ข้อมูลรายละเอียดนักเรียนและวิชา
+              // 2. ข้อมูลรายละเอียด
               {
                 type: "box",
                 layout: "vertical",
@@ -501,58 +485,62 @@
                     type: "box",
                     layout: "baseline",
                     contents: [
-                      { type: "text", text: "นักเรียน", size: "xs", color: "#64748B", flex: 2 },
-                      { type: "text", text: payloadData.studentName, size: "sm", color: "#0F172A", weight: "bold", flex: 5, wrap: true }
+                      { type: "text", text: "👤 นักเรียน", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: payloadData.studentName, size: "sm", color: "#0F172A", weight: "bold", flex: 7, wrap: true }
                     ]
                   },
                   {
                     type: "box",
                     layout: "baseline",
                     contents: [
-                      { type: "text", text: "ชั้น / ห้อง", size: "xs", color: "#64748B", flex: 2 },
-                      { type: "text", text: `${payloadData.classRoom}  (เลขที่ ${payloadData.studentNo})`, size: "xs", color: "#334155", weight: "bold", flex: 5 }
+                      { type: "text", text: "🏫 ชั้น / ห้อง", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: `${payloadData.classRoom}  (เลขที่ ${payloadData.studentNo})`, size: "xs", color: "#334155", weight: "bold", flex: 7 }
                     ]
                   },
                   {
                     type: "box",
                     layout: "baseline",
                     contents: [
-                      { type: "text", text: "วิชา", size: "xs", color: "#64748B", flex: 2 },
-                      { type: "text", text: payloadData.subject, size: "xs", color: "#334155", weight: "bold", flex: 5, wrap: true }
+                      { type: "text", text: "📘 วิชา", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: payloadData.subject, size: "xs", color: "#334155", weight: "bold", flex: 7, wrap: true }
                     ]
                   },
                   {
                     type: "box",
                     layout: "baseline",
                     contents: [
-                      { type: "text", text: "ผู้บันทึก", size: "xs", color: "#64748B", flex: 2 },
-                      { type: "text", text: payloadData.teacherName, size: "xs", color: "#475569", flex: 5 }
+                      { type: "text", text: "✍️ ผู้บันทึก", size: "xs", color: "#64748B", flex: 3 },
+                      { type: "text", text: payloadData.teacherName, size: "xs", color: "#475569", flex: 7 }
                     ]
                   }
                 ]
               },
 
-              // 3. กล่องเปรียบเทียบเกรดเดิม ➔ เกรดใหม่
+              { type: "separator", margin: "lg" },
+
+              // 3. ส่วนแสดงผลการเรียนเดิม ➔ เกรดใหม่
               {
                 type: "box",
                 layout: "horizontal",
                 margin: "lg",
-                spacing: "md",
+                spacing: "sm",
                 contents: [
                   // เกรดเดิม
                   {
                     type: "box",
                     layout: "vertical",
                     contents: [
-                      { type: "text", text: "ผลการเรียนเดิม", size: "xxs", color: "#991B1B", align: "center" },
-                      { type: "text", text: payloadData.oldGrade, size: "xl", weight: "bold", color: "#DC2626", align: "center", margin: "xs" }
+                      { type: "text", text: "ผลเดิม", size: "xxs", color: "#B91C1C", align: "center", weight: "bold" },
+                      { type: "text", text: payloadData.oldGrade, size: "xl", weight: "bold", color: "#EF4444", align: "center", margin: "xs" }
                     ],
                     backgroundColor: "#FEF2F2",
-                    paddingAll: "sm",
-                    cornerRadius: "md",
+                    paddingAll: "md",
+                    cornerRadius: "lg",
+                    borderColor: "#FCA5A5",
+                    borderWidth: "1px",
                     flex: 1
                   },
-                  // ไอคอนลูกศรเปลี่ยนเกรด
+                  // ไอคอนลูกศร
                   {
                     type: "box",
                     layout: "vertical",
@@ -567,12 +555,12 @@
                     type: "box",
                     layout: "vertical",
                     contents: [
-                      { type: "text", text: "เกรดใหม่ที่ได้", size: "xxs", color: "#166534", align: "center", weight: "bold" },
-                      { type: "text", text: payloadData.newGrade, size: "xl", weight: "bold", color: "#15803D", align: "center", margin: "xs" }
+                      { type: "text", text: "เกรดใหม่", size: "xxs", color: "#15803D", align: "center", weight: "bold" },
+                      { type: "text", text: payloadData.newGrade, size: "xl", weight: "bold", color: "#16A34A", align: "center", margin: "xs" }
                     ],
-                    backgroundColor: "#DCFCE7",
-                    paddingAll: "sm",
-                    cornerRadius: "md",
+                    backgroundColor: "#F0FDF4",
+                    paddingAll: "md",
+                    cornerRadius: "lg",
                     borderColor: "#86EFAC",
                     borderWidth: "1px",
                     flex: 1
@@ -580,10 +568,10 @@
                 ]
               },
 
-              // 4. ส่วนเวลาบันทึกด้านล่าง
+              // 4. เวลาบันทึกด้านล่าง
               {
                 type: "text",
-                text: `บันทึกเมื่อ: ${timeString}`,
+                text: `🕒 วันเวลาที่บันทึก: ${timeString}`,
                 size: "xxs",
                 color: "#94A3B8",
                 align: "center",
