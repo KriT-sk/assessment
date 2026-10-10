@@ -170,7 +170,7 @@
     <div class="app-header">
       <div class="d-flex justify-content-between align-items-center mb-2">
         <span class="header-title h6 mb-0 text-white fw-bold"><i class="fa-solid fa-graduation-cap me-2"></i>ระบบแก้ผลการเรียน</span>
-        <span class="badge bg-white text-dark rounded-pill px-2 py-1 align-self-start" style="font-size: 0.7rem;">v3.1</span>
+        <span class="badge bg-white text-dark rounded-pill px-2 py-1 align-self-start" style="font-size: 0.7rem;">v3.2</span>
       </div>
       <div class="teacher-badge mt-1">
         <i class="fa-solid fa-user-check text-warning"></i>
@@ -327,7 +327,7 @@
       if (found) {
         const studentName = found.name || "";
         const roomStr = found.room ? `/${found.room}` : '';
-        const classRoom = `${found.class || ''}${roomStr}`;
+        const classRoom = `${found.class \vert{}\vert{} ''}${roomStr}`;
         const studentNo = found.no || "";
 
         document.getElementById('studentName').value = studentName;
@@ -381,216 +381,7 @@
         timestamp: timeString
       };
 
-      // แก้ไขให้ตรงตามมาตรฐาน LINE Flex Message
+      // โครงสร้าง Flex Message มาตรฐาน (คลีนจุดเสี่ยง Invalid Message แล้ว)
       const flexPayload = {
         type: "flex",
-        altText: `📝 บันทึกแก้ผลการเรียน: ${payloadData.studentName}`,
-        contents: {
-          type: "bubble",
-          size: "mega",
-          header: {
-            type: "box",
-            layout: "vertical",
-            backgroundColor: "#1e3c72",
-            paddingAll: "lg",
-            contents: [
-              {
-                type: "box",
-                layout: "horizontal",
-                contents: [
-                  {
-                    type: "text",
-                    text: "🎓 ระบบวัดและประเมินผล",
-                    color: "#ffffff",
-                    size: "xs",
-                    weight: "bold",
-                    flex: 1
-                  },
-                  {
-                    type: "text",
-                    text: "COMPLETED",
-                    color: "#38ef7d",
-                    size: "xxs",
-                    weight: "bold",
-                    align: "end"
-                  }
-                ]
-              },
-              {
-                type: "text",
-                text: "ใบยืนยันการแก้ผลการเรียน",
-                color: "#ffffff",
-                size: "lg",
-                weight: "bold",
-                margin: "sm"
-              },
-              {
-                type: "text",
-                text: `อ้างอิง: ${refNo}`,
-                color: "#b0c4de",
-                size: "xxs",
-                margin: "xs"
-              }
-            ]
-          },
-          body: {
-            type: "box",
-            layout: "vertical",
-            paddingAll: "lg",
-            spacing: "md",
-            contents: [
-              {
-                type: "box",
-                layout: "vertical",
-                backgroundColor: "#f8fafc",
-                cornerRadius: "md",
-                paddingAll: "md",
-                spacing: "sm",
-                contents: [
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "sm",
-                    contents: [
-                      { type: "text", text: "👤", size: "xs", flex: 0 },
-                      { type: "text", text: "ชื่อ-สกุล", size: "xs", color: "#64748b", flex: 0 },
-                      { type: "text", text: payloadData.studentName, size: "sm", color: "#0f172a", weight: "bold", flex: 1, wrap: true }
-                    ]
-                  },
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "sm",
-                    contents: [
-                      { type: "text", text: "🆔", size: "xs", flex: 0 },
-                      { type: "text", text: "รหัสประจำตัว", size: "xs", color: "#64748b", flex: 0 },
-                      { type: "text", text: payloadData.studentId, size: "sm", color: "#0d6efd", weight: "bold", flex: 1 }
-                    ]
-                  },
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "sm",
-                    contents: [
-                      { type: "text", text: "🏫", size: "xs", flex: 0 },
-                      { type: "text", text: "ชั้น / ห้อง", size: "xs", color: "#64748b", flex: 0 },
-                      { type: "text", text: `${payloadData.classRoom} (เลขที่ ${payloadData.studentNo})`, size: "xs", color: "#334155", weight: "bold", flex: 1 }
-                    ]
-                  },
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "sm",
-                    contents: [
-                      { type: "text", text: "📘", size: "xs", flex: 0 },
-                      { type: "text", text: "รายวิชา", size: "xs", color: "#64748b", flex: 0 },
-                      { type: "text", text: payloadData.subject, size: "xs", color: "#334155", weight: "bold", flex: 1, wrap: true }
-                    ]
-                  }
-                ]
-              },
-              {
-                type: "box",
-                layout: "horizontal",
-                backgroundColor: "#f1f5f9",
-                cornerRadius: "lg",
-                paddingAll: "md",
-                alignItems: "center",
-                contents: [
-                  {
-                    type: "box",
-                    layout: "vertical",
-                    alignItems: "center",
-                    flex: 1,
-                    contents: [
-                      { type: "text", text: "ผลการเรียนเดิม", size: "xxs", color: "#ef4444", weight: "bold" },
-                      { type: "text", text: payloadData.oldGrade, size: "xl", color: "#dc2626", weight: "bold", margin: "xs" }
-                    ]
-                  },
-                  {
-                    type: "text",
-                    text: "➔",
-                    size: "md",
-                    color: "#94a3b8",
-                    align: "center",
-                    flex: 0
-                  },
-                  {
-                    type: "box",
-                    layout: "vertical",
-                    alignItems: "center",
-                    flex: 1,
-                    contents: [
-                      { type: "text", text: "เกรดใหม่ที่ได้", size: "xxs", color: "#16a34a", weight: "bold" },
-                      { type: "text", text: payloadData.newGrade, size: "xl", color: "#15803d", weight: "bold", margin: "xs" }
-                    ]
-                  }
-                ]
-              },
-              {
-                type: "box",
-                layout: "vertical",
-                margin: "xs",
-                spacing: "xxs",
-                contents: [
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "xs",
-                    contents: [
-                      { type: "text", text: "✍️ ผู้บันทึก:", size: "xxs", color: "#94a3b8", flex: 0 },
-                      { type: "text", text: payloadData.teacherName, size: "xxs", color: "#64748b", weight: "bold", flex: 1 }
-                    ]
-                  },
-                  {
-                    type: "box",
-                    layout: "baseline",
-                    spacing: "xs",
-                    contents: [
-                      { type: "text", text: "🕒 วันเวลา:", size: "xxs", color: "#94a3b8", flex: 0 },
-                      { type: "text", text: timeString, size: "xxs", color: "#94a3b8", flex: 1 }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          footer: {
-            type: "box",
-            layout: "vertical",
-            backgroundColor: "#f8fafc",
-            paddingAll: "sm",
-            contents: [
-              {
-                type: "text",
-                text: "บันทึกเรียบร้อยผ่านระบบงานวัดผลดิจิทัล",
-                size: "xxs",
-                color: "#94a3b8",
-                align: "center"
-              }
-            ]
-          }
-        }
-      };
-
-      try {
-        await fetch(GAS_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payloadData)
-        });
-
-        await liff.sendMessages([flexPayload]);
-        
-        alert("บันทึกข้อมูลสำเร็จแล้ว!");
-        liff.closeWindow();
-      } catch (err) {
-        alert("เกิดข้อผิดพลาดในการส่งข้อมูล: " + err.message);
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i> บันทึกข้อมูลเข้าแชต';
-      }
-    });
-  </script>
-</body>
-</html>
+        altText: `📝 บันท
