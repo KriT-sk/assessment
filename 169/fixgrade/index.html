@@ -241,7 +241,7 @@
           <div class="col-6">
             <label class="form-label"><i class="fa-solid fa-circle-check me-1 text-success"></i> เกรดใหม่</label>
             <select id="newGrade" class="form-select fw-semibold text-success">
-              <!-- ตัวเลือกจะถูกสร้างอัตโนมัติตามผลเดิม -->
+              <!-- ตัวเลือกจะถูกสร้างอัตโนมัติด้วย JavaScript ตามเงื่อนไขผลเดิม -->
             </select>
           </div>
         </div>
@@ -261,7 +261,33 @@
 
     let studentDatabase = [];
 
+    // ฟังก์ชันปรับเปลี่ยนตัวเลือกเกรดใหม่อัตโนมัติ
+    function updateNewGradeOptions() {
+      const oldGrade = document.getElementById('oldGrade').value;
+      const newGradeSelect = document.getElementById('newGrade');
+      newGradeSelect.innerHTML = '';
+
+      let options = [];
+      if (oldGrade === '0') {
+        options = ['1.0'];
+      } else if (oldGrade === 'ร' || oldGrade === 'มส') {
+        options = ['1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0'];
+      } else if (oldGrade === 'มผ') {
+        options = ['ผ่าน'];
+      }
+
+      options.forEach(opt => {
+        const optionEl = document.createElement('option');
+        optionEl.value = opt;
+        optionEl.textContent = opt;
+        newGradeSelect.appendChild(optionEl);
+      });
+    }
+
     async function main() {
+      // เรียกปรับตัวเลือกเกรดใหม่เริ่มต้น
+      updateNewGradeOptions();
+
       try {
         await liff.init({ liffId: MY_LIFF_ID });
         if (!liff.isLoggedIn()) {
@@ -272,36 +298,11 @@
           document.getElementById('teacherNameDisplay').innerText = profile.displayName;
         }
         loadStudentData();
-        updateNewGradeOptions(); // กำหนดตัวเลือกเกรดเริ่มต้น
       } catch (err) {
         console.error("LIFF Init Error:", err);
       }
     }
     main();
-
-    // ฟังก์ชันปรับเปลี่ยนตัวเลือกเกรดใหม่อัตโนมัติตามผลเดิม
-    function updateNewGradeOptions() {
-      const oldGrade = document.getElementById('oldGrade').value;
-      const newGradeSelect = document.getElementById('newGrade');
-      newGradeSelect.innerHTML = '';
-
-      let options = [];
-
-      if (oldGrade === '0' || oldGrade === 'มส') {
-        options = ['1.0'];
-      } else if (oldGrade === 'ร') {
-        options = ['1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0'];
-      } else if (oldGrade === 'มผ') {
-        options = ['ผ่าน'];
-      }
-
-      options.forEach(opt => {
-        const optionEl = document.createElement('option');
-        optionEl.value = opt;
-        optionEl.innerText = opt;
-        newGradeSelect.appendChild(optionEl);
-      });
-    }
 
     function loadStudentData() {
       Papa.parse(SHEET_CSV_URL, {
@@ -349,12 +350,10 @@
         const classRoom = `${found.class || ''}${roomStr}`;
         const studentNo = found.no || "";
 
-        // บันทึกลง hidden inputs
         document.getElementById('studentName').value = studentName;
         document.getElementById('classRoom').value = classRoom;
         document.getElementById('studentNo').value = studentNo;
 
-        // อัปเดตการ์ดโปรไฟล์
         displayName.innerText = studentName;
         displayClass.innerText = classRoom;
         displayNo.innerText = studentNo;
@@ -435,7 +434,6 @@
             layout: "vertical",
             paddingAll: "lg",
             contents: [
-              // 1. กล่องรหัสประจำตัวเด่นชัด (High-Contrast Hero Student ID Card)
               {
                 type: "box",
                 layout: "horizontal",
@@ -491,8 +489,6 @@
                 borderColor: "#BFDBFE",
                 borderWidth: "1px"
               },
-
-              // 2. ข้อมูลรายละเอียด
               {
                 type: "box",
                 layout: "vertical",
@@ -533,17 +529,13 @@
                   }
                 ]
               },
-
               { type: "separator", margin: "lg" },
-
-              // 3. ส่วนแสดงผลการเรียนเดิม ➔ เกรดใหม่
               {
                 type: "box",
                 layout: "horizontal",
                 margin: "lg",
                 spacing: "sm",
                 contents: [
-                  // เกรดเดิม
                   {
                     type: "box",
                     layout: "vertical",
@@ -558,7 +550,6 @@
                     borderWidth: "1px",
                     flex: 1
                   },
-                  // ไอคอนลูกศร
                   {
                     type: "box",
                     layout: "vertical",
@@ -568,7 +559,6 @@
                     justifyContent: "center",
                     flex: 0
                   },
-                  // เกรดใหม่
                   {
                     type: "box",
                     layout: "vertical",
@@ -585,8 +575,6 @@
                   }
                 ]
               },
-
-              // 4. เวลาบันทึกด้านล่าง
               {
                 type: "text",
                 text: `🕒 วันเวลาที่บันทึก: ${timeString}`,
