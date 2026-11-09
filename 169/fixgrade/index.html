@@ -231,7 +231,7 @@
         <div class="row g-2 mb-4">
           <div class="col-6">
             <label class="form-label"><i class="fa-solid fa-circle-exclamation me-1 text-danger"></i> ผลเดิม</label>
-            <select id="oldGrade" class="form-select fw-semibold text-danger">
+            <select id="oldGrade" class="form-select fw-semibold text-danger" onchange="updateNewGradeOptions()">
               <option value="0">0</option>
               <option value="ร">ร</option>
               <option value="มส">มส</option>
@@ -241,14 +241,7 @@
           <div class="col-6">
             <label class="form-label"><i class="fa-solid fa-circle-check me-1 text-success"></i> เกรดใหม่</label>
             <select id="newGrade" class="form-select fw-semibold text-success">
-              <option value="1.0">1.0</option>
-              <option value="1.5">1.5</option>
-              <option value="2.0">2.0</option>
-              <option value="2.5">2.5</option>
-              <option value="3.0">3.0</option>
-              <option value="3.5">3.5</option>
-              <option value="4.0">4.0</option>
-              <option value="ผ่าน">ผ่าน</option>
+              <!-- ตัวเลือกจะถูกสร้างอัตโนมัติตามผลเดิม -->
             </select>
           </div>
         </div>
@@ -279,11 +272,36 @@
           document.getElementById('teacherNameDisplay').innerText = profile.displayName;
         }
         loadStudentData();
+        updateNewGradeOptions(); // กำหนดตัวเลือกเกรดเริ่มต้น
       } catch (err) {
         console.error("LIFF Init Error:", err);
       }
     }
     main();
+
+    // ฟังก์ชันปรับเปลี่ยนตัวเลือกเกรดใหม่อัตโนมัติตามผลเดิม
+    function updateNewGradeOptions() {
+      const oldGrade = document.getElementById('oldGrade').value;
+      const newGradeSelect = document.getElementById('newGrade');
+      newGradeSelect.innerHTML = '';
+
+      let options = [];
+
+      if (oldGrade === '0' || oldGrade === 'มส') {
+        options = ['1.0'];
+      } else if (oldGrade === 'ร') {
+        options = ['1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0'];
+      } else if (oldGrade === 'มผ') {
+        options = ['ผ่าน'];
+      }
+
+      options.forEach(opt => {
+        const optionEl = document.createElement('option');
+        optionEl.value = opt;
+        optionEl.innerText = opt;
+        newGradeSelect.appendChild(optionEl);
+      });
+    }
 
     function loadStudentData() {
       Papa.parse(SHEET_CSV_URL, {
@@ -581,7 +599,6 @@
           }
         }
       };
-
 
       try {
         await fetch(GAS_URL, {
